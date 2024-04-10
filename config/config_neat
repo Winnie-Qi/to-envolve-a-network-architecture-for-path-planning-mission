@@ -1,0 +1,105 @@
+#--- parameters for the neat-cnn experiment ---#
+
+[NEAT]
+fitness_criterion     = max
+fitness_threshold     = -2
+pop_size              = 6
+reset_on_extinction   = False
+
+[DefaultGenome]
+# node activation options
+activation_default      = relu
+activation_mutate_rate  = 0.0
+activation_options      = relu
+
+# node aggregation options
+aggregation_default     = sum
+aggregation_mutate_rate = 0.0
+aggregation_options     = sum
+
+# node bias options
+bias_init_mean          = 0.0
+bias_init_stdev         = 0.02
+bias_max_value          = 0.5
+bias_min_value          = -0.5
+bias_mutate_power       = 0.005
+bias_mutate_rate        = 0.05
+bias_replace_rate       = 0.01
+
+# genome compatibility options
+compatibility_disjoint_coefficient = 1.0
+compatibility_weight_coefficient   = 0.5
+
+# connection add/remove rates
+conn_add_prob           = 1
+conn_add_num            = 10
+conn_delete_prob        = 1
+conn_delete_num         = 5
+
+# connection enable options
+enabled_default         = True
+enabled_mutate_rate     = 0.00
+
+feed_forward            = True
+initial_connection      = full
+
+# node add/remove rates
+node_add_prob           = 1
+node_add_num            = 10
+node_delete_prob        = 0.2
+node_delete_num         = 5
+
+# network parameters
+num_inputs              = 3
+num_outputs             = 5
+full_connect_input      = True
+
+# node response options
+response_init_mean      = 1.0
+response_init_stdev     = 0.0
+response_max_value      = 5
+response_min_value      = -5.0
+response_mutate_power   = 0.0
+response_mutate_rate    = 0.0
+response_replace_rate   = 0.0
+
+# connection weight options
+weight_init_mean        = 0.0
+weight_init_stdev       = 0.05
+weight_max_value        = 0.5
+weight_min_value        = -0.5
+weight_mutate_power     = 0.005
+weight_mutate_rate      = 0.05
+weight_replace_rate     = 0.01
+
+# cnn kernel options
+kernel_init_mean        = 0.0
+kernel_init_stdev       = 0.3
+kernel_max_value        = 1.0
+kernel_min_value        = -1.0
+kernel_mutate_power     = 0.005
+kernel_mutate_rate      = 0.05
+kernel_replace_rate     = 0.01
+kernel_size             = 9
+
+# layer information
+num_cnn_layer           = 2
+dense_after_cnn         = 1
+num_gnn_layer           = 2
+dense_after_gnn         = 1
+input_size              = 11
+nodes_every_layer       = 16,32,32,32,32,5
+
+[DefaultSpeciesSet]
+compatibility_threshold = 5
+
+[DefaultStagnation]
+species_fitness_func = max
+max_stagnation       = 5
+species_elitism      = 2
+
+[DefaultReproduction]
+elitism            = 2
+survival_threshold = 0.2
+
+#crossover_rate ?

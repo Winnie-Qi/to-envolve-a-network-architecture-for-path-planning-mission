@@ -1,0 +1,1598 @@
+Population's average fitness: -1997.57892 stdev: 531.30117
+Best fitness: -1421.48730 - size: (709, 49792) - species 1 - id 4
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -4572.45076 stdev: 1647.83609
+Best fitness: -2060.26538 - size: (709, 49792) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -6320.96004 stdev: 3107.29106
+Best fitness: -3217.66846 - size: (709, 49792) - species 1 - id 4
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    0     6  -3217.7    0.631     0
+Total extinctions: 0
+Generation time: 24.901 sec
+
+ ****** Running generation 1 ****** 
+
+Population's average fitness: -3134.97797 stdev: 1144.09685
+Best fitness: -1692.60681 - size: (709, 49792) - species 1 - id 10
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    1     6  -1692.6    0.601     0
+Total extinctions: 0
+Generation time: 9.408 sec (17.155 average)
+
+ ****** Running generation 2 ****** 
+
+Population's average fitness: -1592.15265 stdev: 420.72219
+Best fitness: -1065.20801 - size: (709, 49792) - species 1 - id 14
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    2     6  -1065.2    0.584     0
+Total extinctions: 0
+Generation time: 9.854 sec (14.721 average)
+
+ ****** Running generation 3 ****** 
+
+Population's average fitness: -1172.07429 stdev: 268.36391
+Best fitness: -676.59491 - size: (709, 49792) - species 1 - id 15
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    3     6   -676.6    0.413     0
+Total extinctions: 0
+Generation time: 10.020 sec (13.546 average)
+
+ ****** Running generation 4 ****** 
+
+Population's average fitness: -980.69207 stdev: 349.63024
+Best fitness: -676.81378 - size: (709, 49792) - species 1 - id 22
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    4     6   -676.8    0.704     1
+Total extinctions: 0
+Generation time: 10.005 sec (12.838 average)
+
+ ****** Running generation 5 ****** 
+
+Population's average fitness: -877.04922 stdev: 309.21060
+Best fitness: -557.31689 - size: (709, 49792) - species 1 - id 24
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    5     6   -557.3    0.663     0
+Total extinctions: 0
+Generation time: 9.394 sec (12.264 average)
+
+ ****** Running generation 6 ****** 
+
+Population's average fitness: -812.91508 stdev: 406.95201
+Best fitness: -452.55109 - size: (709, 49792) - species 1 - id 27
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    6     6   -452.6    0.686     0
+Total extinctions: 0
+Generation time: 10.915 sec (12.071 average)
+
+ ****** Running generation 7 ****** 
+
+Population's average fitness: -692.11862 stdev: 79.76252
+Best fitness: -584.67859 - size: (709, 49792) - species 1 - id 24
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    7     6   -584.7    0.541     1
+Total extinctions: 0
+Generation time: 9.855 sec (11.794 average)
+
+ ****** Running generation 8 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -121.33200 stdev: 64.51510
+Best fitness: -41.46529 - size: (709, 49792) - species 1 - id 4
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    0     6    -41.5    0.558     0
+Total extinctions: 0
+Generation time: 6.274 sec
+
+ ****** Running generation 1 ****** 
+
+Population's average fitness: -70.17027 stdev: 26.11414
+Best fitness: -37.04799 - size: (709, 49792) - species 1 - id 4
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    1     6    -37.0    0.566     0
+Total extinctions: 0
+Generation time: 4.607 sec (5.441 average)
+
+ ****** Running generation 2 ****** 
+
+Population's average fitness: -75.24204 stdev: 36.02060
+Best fitness: -44.78690 - size: (709, 49792) - species 1 - id 4
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    2     6    -44.8    0.721     1
+Total extinctions: 0
+Generation time: 4.638 sec (5.173 average)
+
+ ****** Running generation 3 ****** 
+
+Population's average fitness: -50.85984 stdev: 11.72194
+Best fitness: -31.68231 - size: (709, 49792) - species 1 - id 15
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    3     6    -31.7    0.489     0
+Total extinctions: 0
+Generation time: 4.854 sec (5.093 average)
+
+ ****** Running generation 4 ****** 
+
+Population's average fitness: -50.19058 stdev: 12.07066
+Best fitness: -34.11178 - size: (709, 49792) - species 1 - id 15
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    4     6    -34.1    0.538     1
+Total extinctions: 0
+Generation time: 4.829 sec (5.040 average)
+
+ ****** Running generation 5 ****** 
+
+Population's average fitness: -37.36278 stdev: 6.47858
+Best fitness: -31.20111 - size: (709, 49792) - species 1 - id 15
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    5     6    -31.2    0.689     0
+Total extinctions: 0
+Generation time: 4.962 sec (5.027 average)
+
+ ****** Running generation 6 ****** 
+
+Population's average fitness: -33.78533 stdev: 6.30819
+Best fitness: -27.76119 - size: (709, 49792) - species 1 - id 30
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    6     6    -27.8    0.653     0
+Total extinctions: 0
+Generation time: 5.082 sec (5.035 average)
+
+ ****** Running generation 7 ****** 
+
+Population's average fitness: -42.25899 stdev: 4.58020
+Best fitness: -36.77997 - size: (709, 49792) - species 1 - id 30
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    7     6    -36.8    0.600     1
+Total extinctions: 0
+Generation time: 4.855 sec (5.013 average)
+
+ ****** Running generation 8 ****** 
+
+Population's average fitness: -40.06831 stdev: 6.25729
+Best fitness: -33.63300 - size: (709, 49792) - species 1 - id 36
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    8     6    -33.6    0.602     2
+Total extinctions: 0
+Generation time: 4.976 sec (5.009 average)
+
+ ****** Running generation 9 ****** 
+
+Population's average fitness: -37.26537 stdev: 5.87890
+Best fitness: -30.44901 - size: (709, 49792) - species 1 - id 40
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    9     6    -30.4    0.635     3
+Total extinctions: 0
+Generation time: 5.046 sec (5.012 average)
+
+ ****** Running generation 10 ****** 
+
+Population's average fitness: -40.05323 stdev: 3.96860
+Best fitness: -32.88890 - size: (709, 49792) - species 1 - id 40
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   10     6    -32.9    0.387     4
+Total extinctions: 0
+Generation time: 4.981 sec (4.883 average)
+
+ ****** Running generation 11 ****** 
+
+Population's average fitness: -39.51447 stdev: 8.91489
+Best fitness: -31.17539 - size: (709, 49792) - species 1 - id 47
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   11     6    -31.2    0.653     5
+Total extinctions: 0
+Generation time: 4.759 sec (4.898 average)
+
+ ****** Running generation 12 ****** 
+
+Population's average fitness: -30.88735 stdev: 2.53930
+Best fitness: -27.90432 - size: (709, 49792) - species 1 - id 53
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   12     6    -27.9    0.609     6
+Total extinctions: 0
+Generation time: 4.791 sec (4.914 average)
+
+ ****** Running generation 13 ****** 
+
+Population's average fitness: -28.87974 stdev: 2.56949
+Best fitness: -26.27718 - size: (709, 49792) - species 1 - id 57
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   13     6    -26.3    0.632     0
+Total extinctions: 0
+Generation time: 4.477 sec (4.876 average)
+
+ ****** Running generation 14 ****** 
+
+Population's average fitness: -30.77546 stdev: 3.89594
+Best fitness: -26.94411 - size: (709, 49792) - species 1 - id 53
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   14     6    -26.9    0.654     1
+Total extinctions: 0
+Generation time: 4.462 sec (4.839 average)
+
+ ****** Running generation 15 ****** 
+
+Population's average fitness: -26.93363 stdev: 6.05280
+Best fitness: -20.29374 - size: (709, 49792) - species 1 - id 64
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   15     6    -20.3    0.583     0
+Total extinctions: 0
+Generation time: 4.705 sec (4.813 average)
+
+ ****** Running generation 16 ****** 
+
+Population's average fitness: -30.44581 stdev: 6.79513
+Best fitness: -21.74274 - size: (709, 49792) - species 1 - id 64
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   16     6    -21.7    0.585     1
+Total extinctions: 0
+Generation time: 4.604 sec (4.766 average)
+
+ ****** Running generation 17 ****** 
+
+Population's average fitness: -27.10316 stdev: 7.02534
+Best fitness: -20.07329 - size: (709, 49792) - species 1 - id 64
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   17     6    -20.1    0.670     0
+Total extinctions: 0
+Generation time: 4.741 sec (4.754 average)
+
+ ****** Running generation 18 ****** 
+
+Population's average fitness: -27.36985 stdev: 2.81375
+Best fitness: -24.02141 - size: (709, 49792) - species 1 - id 64
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   18     6    -24.0    0.577     1
+Total extinctions: 0
+Generation time: 4.576 sec (4.714 average)
+
+ ****** Running generation 19 ****** 
+
+Population's average fitness: -25.21158 stdev: 2.73701
+Best fitness: -21.13084 - size: (709, 49792) - species 1 - id 64
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   19     6    -21.1    0.519     2
+Total extinctions: 0
+Generation time: 4.737 sec (4.683 average)
+
+ ****** Running generation 20 ****** 
+
+Population's average fitness: -23.06517 stdev: 1.85931
+Best fitness: -20.36821 - size: (709, 49792) - species 1 - id 84
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   20     6    -20.4    0.493     3
+Total extinctions: 0
+Generation time: 4.678 sec (4.653 average)
+
+ ****** Running generation 21 ****** 
+
+Population's average fitness: -25.38032 stdev: 4.27846
+Best fitness: -18.93970 - size: (709, 49792) - species 1 - id 84
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   21     6    -18.9    0.447     0
+Total extinctions: 0
+Generation time: 4.723 sec (4.649 average)
+
+ ****** Running generation 22 ****** 
+
+Population's average fitness: -22.45481 stdev: 4.19412
+Best fitness: -17.64445 - size: (709, 49792) - species 1 - id 91
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   22     6    -17.6    0.554     0
+Total extinctions: 0
+Generation time: 4.622 sec (4.632 average)
+
+ ****** Running generation 23 ****** 
+
+Population's average fitness: -28.77955 stdev: 10.76544
+Best fitness: -18.69452 - size: (709, 49792) - species 1 - id 91
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   23     6    -18.7    0.599     1
+Total extinctions: 0
+Generation time: 4.639 sec (4.649 average)
+
+ ****** Running generation 24 ****** 
+
+Population's average fitness: -25.65695 stdev: 4.59828
+Best fitness: -19.99344 - size: (709, 49792) - species 1 - id 91
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   24     6    -20.0    0.521     2
+Total extinctions: 0
+Generation time: 4.610 sec (4.663 average)
+
+ ****** Running generation 25 ****** 
+
+Population's average fitness: -21.38250 stdev: 4.91779
+Best fitness: -17.78244 - size: (709, 49792) - species 1 - id 84
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   25     6    -17.8    0.747     3
+Total extinctions: 0
+Generation time: 4.661 sec (4.659 average)
+
+ ****** Running generation 26 ****** 
+
+Population's average fitness: -23.06828 stdev: 4.69885
+Best fitness: -18.97076 - size: (709, 49792) - species 1 - id 91
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   26     6    -19.0    0.700     4
+Total extinctions: 0
+Generation time: 4.656 sec (4.664 average)
+
+ ****** Running generation 27 ****** 
+
+Population's average fitness: -24.60828 stdev: 10.34424
+Best fitness: -18.09625 - size: (709, 49792) - species 1 - id 111
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   27     6    -18.1    0.777     5
+Total extinctions: 0
+Generation time: 4.655 sec (4.656 average)
+
+ ****** Running generation 28 ****** 
+
+Population's average fitness: -22.08940 stdev: 4.82455
+Best fitness: -17.81663 - size: (709, 49792) - species 1 - id 111
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   28     6    -17.8    0.680     6
+Total extinctions: 0
+Generation time: 4.883 sec (4.686 average)
+
+ ****** Running generation 29 ****** 
+
+Population's average fitness: -21.43822 stdev: 3.40006
+Best fitness: -17.61217 - size: (709, 49792) - species 1 - id 111
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   29     6    -17.6    0.621     0
+Total extinctions: 0
+Generation time: 4.722 sec (4.685 average)
+
+ ****** Running generation 30 ****** 
+
+Population's average fitness: -24.10805 stdev: 4.48107
+Best fitness: -18.02214 - size: (709, 49792) - species 1 - id 111
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   30     6    -18.0    0.478     1
+Total extinctions: 0
+Generation time: 4.740 sec (4.691 average)
+
+ ****** Running generation 31 ****** 
+
+Population's average fitness: -18.94984 stdev: 1.34059
+Best fitness: -17.50795 - size: (709, 49792) - species 1 - id 116
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   31     6    -17.5    0.618     0
+Total extinctions: 0
+Generation time: 4.827 sec (4.702 average)
+
+ ****** Running generation 32 ****** 
+
+Population's average fitness: -23.67079 stdev: 3.88245
+Best fitness: -18.13164 - size: (709, 49792) - species 1 - id 111
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   32     6    -18.1    0.479     1
+Total extinctions: 0
+Generation time: 4.687 sec (4.708 average)
+
+ ****** Running generation 33 ****** 
+
+Population's average fitness: -22.10687 stdev: 2.71554
+Best fitness: -19.12031 - size: (709, 49792) - species 1 - id 135
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   33     6    -19.1    0.501     2
+Total extinctions: 0
+Generation time: 4.863 sec (4.731 average)
+
+ ****** Running generation 34 ****** 
+
+Population's average fitness: -19.08275 stdev: 3.00331
+Best fitness: -15.30940 - size: (709, 49792) - species 1 - id 135
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   34     6    -15.3    0.587     0
+Total extinctions: 0
+Generation time: 4.773 sec (4.747 average)
+
+ ****** Running generation 35 ****** 
+
+Population's average fitness: -21.74682 stdev: 3.35326
+Best fitness: -18.30203 - size: (709, 49792) - species 1 - id 135
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   35     6    -18.3    0.580     1
+Total extinctions: 0
+Generation time: 4.683 sec (4.749 average)
+
+ ****** Running generation 36 ****** 
+
+Population's average fitness: -19.58885 stdev: 3.23209
+Best fitness: -16.76376 - size: (709, 49792) - species 1 - id 135
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   36     6    -16.8    0.707     2
+Total extinctions: 0
+Generation time: 4.510 sec (4.734 average)
+
+ ****** Running generation 37 ****** 
+
+Population's average fitness: -21.96083 stdev: 4.26586
+Best fitness: -17.59939 - size: (709, 49792) - species 1 - id 152
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   37     6    -17.6    0.641     3
+Total extinctions: 0
+Generation time: 4.663 sec (4.735 average)
+
+ ****** Running generation 38 ****** 
+
+Population's average fitness: -19.01655 stdev: 3.03276
+Best fitness: -15.72511 - size: (709, 49792) - species 1 - id 135
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   38     6    -15.7    0.636     4
+Total extinctions: 0
+Generation time: 4.552 sec (4.702 average)
+
+ ****** Running generation 39 ****** 
+
+Population's average fitness: -21.87760 stdev: 1.85191
+Best fitness: -19.63195 - size: (709, 49792) - species 1 - id 152
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   39     6    -19.6    0.578     5
+Total extinctions: 0
+Generation time: 4.575 sec (4.687 average)
+
+ ****** Running generation 40 ****** 
+
+Population's average fitness: -23.22212 stdev: 4.99575
+Best fitness: -17.70169 - size: (709, 49792) - species 1 - id 152
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   40     6    -17.7    0.583     6
+Total extinctions: 0
+Generation time: 4.623 sec (4.676 average)
+
+ ****** Running generation 41 ****** 
+
+Population's average fitness: -20.77623 stdev: 4.53234
+Best fitness: -16.89002 - size: (709, 49792) - species 1 - id 152
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   41     6    -16.9    0.715     7
+Total extinctions: 0
+Generation time: 4.803 sec (4.673 average)
+
+ ****** Running generation 42 ****** 
+
+Population's average fitness: -28.61930 stdev: 15.41811
+Best fitness: -16.46422 - size: (709, 49792) - species 1 - id 152
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   42     6    -16.5    0.733     8
+Total extinctions: 0
+Generation time: 4.744 sec (4.679 average)
+
+ ****** Running generation 43 ****** 
+
+Population's average fitness: -19.10053 stdev: 1.73498
+Best fitness: -15.92622 - size: (709, 49792) - species 1 - id 152
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   43     6    -15.9    0.406     9
+Total extinctions: 0
+Generation time: 4.951 sec (4.688 average)
+
+ ****** Running generation 44 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.06249 stdev: 0.11470
+Best fitness: -15.90242 - size: (709, 49792) - species 1 - id 6
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    0     6    -15.9    0.115     0
+Total extinctions: 0
+Generation time: 6.130 sec
+
+ ****** Running generation 1 ****** 
+
+Population's average fitness: -15.98095 stdev: 0.02087
+Best fitness: -15.94154 - size: (709, 49792) - species 1 - id 9
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    1     6    -15.9    0.025     1
+Total extinctions: 0
+Generation time: 4.524 sec (5.327 average)
+
+ ****** Running generation 2 ****** 
+
+Population's average fitness: -15.95368 stdev: 0.05073
+Best fitness: -15.88313 - size: (709, 49792) - species 1 - id 9
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    2     6    -15.9    0.081     0
+Total extinctions: 0
+Generation time: 4.616 sec (5.090 average)
+
+ ****** Running generation 3 ****** 
+
+Population's average fitness: -15.96200 stdev: 0.04738
+Best fitness: -15.89878 - size: (709, 49792) - species 1 - id 9
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    3     6    -15.9    0.067     1
+Total extinctions: 0
+Generation time: 4.641 sec (4.978 average)
+
+ ****** Running generation 4 ****** 
+
+Population's average fitness: -15.93616 stdev: 0.03743
+Best fitness: -15.88830 - size: (709, 49792) - species 1 - id 9
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    4     6    -15.9    0.071     2
+Total extinctions: 0
+Generation time: 4.504 sec (4.883 average)
+
+ ****** Running generation 5 ****** 
+
+Population's average fitness: -15.89685 stdev: 0.02112
+Best fitness: -15.86436 - size: (709, 49792) - species 1 - id 25
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    5     6    -15.9    0.024     0
+Total extinctions: 0
+Generation time: 4.776 sec (4.865 average)
+
+ ****** Running generation 6 ****** 
+
+Population's average fitness: -15.84741 stdev: 0.01665
+Best fitness: -15.82151 - size: (709, 49792) - species 1 - id 30
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    6     6    -15.8    0.018     0
+Total extinctions: 0
+Generation time: 4.779 sec (4.853 average)
+
+ ****** Running generation 7 ****** 
+
+Population's average fitness: -15.90598 stdev: 0.02275
+Best fitness: -15.88297 - size: (709, 49792) - species 1 - id 34
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    7     6    -15.9    0.044     1
+Total extinctions: 0
+Generation time: 4.494 sec (4.808 average)
+
+ ****** Running generation 8 ****** 
+
+Population's average fitness: -15.86623 stdev: 0.01689
+Best fitness: -15.84257 - size: (709, 49792) - species 1 - id 36
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    8     6    -15.8    0.019     2
+Total extinctions: 0
+Generation time: 4.563 sec (4.781 average)
+
+ ****** Running generation 9 ****** 
+
+Population's average fitness: -15.86303 stdev: 0.02402
+Best fitness: -15.83081 - size: (709, 49792) - species 1 - id 41
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    9     6    -15.8    0.032     3
+Total extinctions: 0
+Generation time: 4.779 sec (4.781 average)
+
+ ****** Running generation 10 ****** 
+
+Population's average fitness: -15.81119 stdev: 0.02757
+Best fitness: -15.77776 - size: (709, 49792) - species 1 - id 43
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   10     6    -15.8    0.051     0
+Total extinctions: 0
+Generation time: 4.691 sec (4.637 average)
+
+ ****** Running generation 11 ****** 
+
+Population's average fitness: -15.72079 stdev: 0.02804
+Best fitness: -15.68782 - size: (709, 49792) - species 1 - id 50
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   11     6    -15.7    0.038     0
+Total extinctions: 0
+Generation time: 4.682 sec (4.652 average)
+
+ ****** Running generation 12 ****** 
+
+Population's average fitness: -15.75335 stdev: 0.02312
+Best fitness: -15.73727 - size: (709, 49792) - species 1 - id 49
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   12     6    -15.7    0.050     1
+Total extinctions: 0
+Generation time: 4.738 sec (4.665 average)
+
+ ****** Running generation 13 ****** 
+
+Population's average fitness: -15.67607 stdev: 0.06148
+Best fitness: -15.60585 - size: (709, 49792) - species 1 - id 55
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   13     6    -15.6    0.117     0
+Total extinctions: 0
+Generation time: 4.789 sec (4.679 average)
+
+ ****** Running generation 14 ****** 
+
+Population's average fitness: -15.63523 stdev: 0.04442
+Best fitness: -15.58467 - size: (709, 49792) - species 1 - id 60
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   14     6    -15.6    0.082     0
+Total extinctions: 0
+Generation time: 4.684 sec (4.697 average)
+
+ ****** Running generation 15 ****** 
+
+Population's average fitness: -15.71950 stdev: 0.04266
+Best fitness: -15.64522 - size: (709, 49792) - species 1 - id 65
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   15     6    -15.6    0.058     1
+Total extinctions: 0
+Generation time: 4.687 sec (4.689 average)
+
+ ****** Running generation 16 ****** 
+
+Population's average fitness: -15.53344 stdev: 0.05717
+Best fitness: -15.44172 - size: (709, 49792) - species 1 - id 70
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   16     6    -15.4    0.089     0
+Total extinctions: 0
+Generation time: 4.567 sec (4.667 average)
+
+ ****** Running generation 17 ****** 
+
+Population's average fitness: -15.53698 stdev: 0.04292
+Best fitness: -15.45811 - size: (709, 49792) - species 1 - id 71
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   17     6    -15.5    0.043     1
+Total extinctions: 0
+Generation time: 4.874 sec (4.705 average)
+
+ ****** Running generation 18 ****** 
+
+Population's average fitness: -15.45391 stdev: 0.03085
+Best fitness: -15.40465 - size: (709, 49792) - species 1 - id 71
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   18     6    -15.4    0.045     0
+Total extinctions: 0
+Generation time: 4.673 sec (4.716 average)
+
+ ****** Running generation 19 ****** 
+
+Population's average fitness: -15.48459 stdev: 0.02304
+Best fitness: -15.45528 - size: (709, 49792) - species 1 - id 79
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   19     6    -15.5    0.035     1
+Total extinctions: 0
+Generation time: 4.760 sec (4.714 average)
+
+ ****** Running generation 20 ****** 
+
+Population's average fitness: -15.39672 stdev: 0.00634
+Best fitness: -15.38763 - size: (709, 49792) - species 1 - id 84
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   20     6    -15.4    0.010     0
+Total extinctions: 0
+Generation time: 4.457 sec (4.691 average)
+
+ ****** Running generation 21 ****** 
+
+Population's average fitness: -15.56670 stdev: 0.01952
+Best fitness: -15.53563 - size: (709, 49792) - species 1 - id 87
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   21     6    -15.5    0.031     1
+Total extinctions: 0
+Generation time: 4.593 sec (4.682 average)
+
+ ****** Running generation 22 ****** 
+
+Population's average fitness: -15.42778 stdev: 0.03119
+Best fitness: -15.38237 - size: (709, 49792) - species 1 - id 87
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   22     6    -15.4    0.061     0
+Total extinctions: 0
+Generation time: 4.734 sec (4.682 average)
+
+ ****** Running generation 23 ****** 
+
+Population's average fitness: -15.51108 stdev: 0.01835
+Best fitness: -15.47953 - size: (709, 49792) - species 1 - id 87
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   23     6    -15.5    0.029     1
+Total extinctions: 0
+Generation time: 4.701 sec (4.673 average)
+
+ ****** Running generation 24 ****** 
+
+Population's average fitness: -15.30031 stdev: 0.06387
+Best fitness: -15.22462 - size: (709, 49792) - species 1 - id 87
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   24     6    -15.2    0.113     0
+Total extinctions: 0
+Generation time: 4.700 sec (4.674 average)
+
+ ****** Running generation 25 ****** 
+
+Population's average fitness: -15.45354 stdev: 0.01625
+Best fitness: -15.43292 - size: (709, 49792) - species 1 - id 103
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   25     6    -15.4    0.025     1
+Total extinctions: 0
+Generation time: 4.876 sec (4.693 average)
+
+ ****** Running generation 26 ****** 
+
+Population's average fitness: -15.56149 stdev: 0.03565
+Best fitness: -15.52533 - size: (709, 49792) - species 1 - id 105
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   26     6    -15.5    0.058     2
+Total extinctions: 0
+Generation time: 4.724 sec (4.709 average)
+
+ ****** Running generation 27 ****** 
+
+Population's average fitness: -15.40818 stdev: 0.03085
+Best fitness: -15.37913 - size: (709, 49792) - species 1 - id 105
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   27     6    -15.4    0.053     3
+Total extinctions: 0
+Generation time: 4.677 sec (4.689 average)
+
+ ****** Running generation 28 ****** 
+
+Population's average fitness: -15.63749 stdev: 0.02193
+Best fitness: -15.61507 - size: (709, 49792) - species 1 - id 115
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   28     6    -15.6    0.046     4
+Total extinctions: 0
+Generation time: 4.756 sec (4.698 average)
+
+ ****** Running generation 29 ****** 
+
+Population's average fitness: -15.39938 stdev: 0.02724
+Best fitness: -15.36514 - size: (709, 49792) - species 1 - id 122
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   29     6    -15.4    0.039     5
+Total extinctions: 0
+Generation time: 4.715 sec (4.693 average)
+
+ ****** Running generation 30 ****** 
+
+Population's average fitness: -15.53853 stdev: 0.03398
+Best fitness: -15.50188 - size: (709, 49792) - species 1 - id 125
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   30     6    -15.5    0.064     6
+Total extinctions: 0
+Generation time: 4.589 sec (4.706 average)
+
+ ****** Running generation 31 ****** 
+
+Population's average fitness: -15.29970 stdev: 0.03248
+Best fitness: -15.26860 - size: (709, 49792) - species 1 - id 128
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   31     6    -15.3    0.068     7
+Total extinctions: 0
+Generation time: 4.670 sec (4.714 average)
+
+ ****** Running generation 32 ****** 
+
+Population's average fitness: -15.13218 stdev: 0.07059
+Best fitness: -15.07576 - size: (709, 49792) - species 1 - id 134
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   32     6    -15.1    0.143     0
+Total extinctions: 0
+Generation time: 4.720 sec (4.713 average)
+
+ ****** Running generation 33 ****** 
+
+Population's average fitness: -15.36258 stdev: 0.02280
+Best fitness: -15.33201 - size: (709, 49792) - species 1 - id 134
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   33     6    -15.3    0.041     1
+Total extinctions: 0
+Generation time: 4.523 sec (4.695 average)
+
+ ****** Running generation 34 ****** 
+
+Population's average fitness: -15.37224 stdev: 0.03399
+Best fitness: -15.32491 - size: (709, 49792) - species 1 - id 142
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   34     6    -15.3    0.052     2
+Total extinctions: 0
+Generation time: 4.745 sec (4.700 average)
+
+ ****** Running generation 35 ****** 
+
+Population's average fitness: -15.10080 stdev: 0.02478
+Best fitness: -15.05626 - size: (709, 49792) - species 1 - id 146
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   35     6    -15.1    0.035     0
+Total extinctions: 0
+Generation time: 4.617 sec (4.674 average)
+
+ ****** Running generation 36 ****** 
+
+Population's average fitness: -15.35522 stdev: 0.01850
+Best fitness: -15.32366 - size: (709, 49792) - species 1 - id 150
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   36     6    -15.3    0.018     1
+Total extinctions: 0
+Generation time: 4.843 sec (4.686 average)
+
+ ****** Running generation 37 ****** 
+
+Population's average fitness: -15.12287 stdev: 0.03943
+Best fitness: -15.08755 - size: (709, 49792) - species 1 - id 150
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   37     6    -15.1    0.072     2
+Total extinctions: 0
+Generation time: 4.742 sec (4.692 average)
+
+ ****** Running generation 38 ****** 
+
+Population's average fitness: -14.98372 stdev: 0.02748
+Best fitness: -14.96285 - size: (709, 49792) - species 1 - id 158
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   38     6    -15.0    0.041     0
+Total extinctions: 0
+Generation time: 4.729 sec (4.689 average)
+
+ ****** Running generation 39 ****** 
+
+Population's average fitness: -15.34628 stdev: 0.02458
+Best fitness: -15.32823 - size: (709, 49792) - species 1 - id 150
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   39     6    -15.3    0.051     1
+Total extinctions: 0
+Generation time: 4.669 sec (4.685 average)
+
+ ****** Running generation 40 ****** 
+
+Population's average fitness: -14.95087 stdev: 0.03810
+Best fitness: -14.90980 - size: (709, 49792) - species 1 - id 163
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   40     6    -14.9    0.070     0
+Total extinctions: 0
+Generation time: 4.710 sec (4.697 average)
+
+ ****** Running generation 41 ****** 
+
+Population's average fitness: -15.52797 stdev: 0.01638
+Best fitness: -15.50634 - size: (709, 49792) - species 1 - id 163
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   41     6    -15.5    0.026     1
+Total extinctions: 0
+Generation time: 4.605 sec (4.690 average)
+
+ ****** Running generation 42 ****** 
+
+Population's average fitness: -15.35507 stdev: 0.02475
+Best fitness: -15.32629 - size: (709, 49792) - species 1 - id 174
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   42     6    -15.3    0.051     2
+Total extinctions: 0
+Generation time: 4.567 sec (4.675 average)
+
+ ****** Running generation 43 ****** 
+
+Population's average fitness: -15.05051 stdev: 0.04108
+Best fitness: -14.97194 - size: (709, 49792) - species 1 - id 176
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   43     6    -15.0    0.059     3
+Total extinctions: 0
+Generation time: 4.650 sec (4.688 average)
+
+ ****** Running generation 44 ****** 
+
+Population's average fitness: -15.19970 stdev: 0.03461
+Best fitness: -15.14116 - size: (709, 49792) - species 1 - id 176
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   44     6    -15.1    0.041     4
+Total extinctions: 0
+Generation time: 4.554 sec (4.669 average)
+
+ ****** Running generation 45 ****** 
+
+Population's average fitness: -15.23977 stdev: 0.03169
+Best fitness: -15.20547 - size: (709, 49792) - species 1 - id 186
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   45     6    -15.2    0.064     5
+Total extinctions: 0
+Generation time: 4.531 sec (4.660 average)
+
+ ****** Running generation 46 ****** 
+
+Population's average fitness: -15.10340 stdev: 0.02677
+Best fitness: -15.08055 - size: (709, 49792) - species 1 - id 186
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   46     6    -15.1    0.056     6
+Total extinctions: 0
+Generation time: 4.466 sec (4.622 average)
+
+ ****** Running generation 47 ****** 
+
+Population's average fitness: -15.32162 stdev: 0.01741
+Best fitness: -15.30387 - size: (709, 49792) - species 1 - id 186
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   47     6    -15.3    0.032     7
+Total extinctions: 0
+Generation time: 4.633 sec (4.612 average)
+
+ ****** Running generation 48 ****** 
+
+Population's average fitness: -14.83721 stdev: 0.02087
+Best fitness: -14.80637 - size: (709, 49792) - species 1 - id 198
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   48     6    -14.8    0.033     0
+Total extinctions: 0
+Generation time: 4.719 sec (4.611 average)
+
+ ****** Running generation 49 ****** 
+
+Population's average fitness: -15.15744 stdev: 0.01872
+Best fitness: -15.12005 - size: (709, 49792) - species 1 - id 199
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   49     6    -15.1    0.018     1
+Total extinctions: 0
+Generation time: 4.667 sec (4.610 average)
+
+ ****** Running generation 50 ****** 
+
+Population's average fitness: -15.29168 stdev: 0.01777
+Best fitness: -15.26347 - size: (709, 49792) - species 1 - id 199
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   50     6    -15.3    0.026     2
+Total extinctions: 0
+Generation time: 4.660 sec (4.605 average)
+
+ ****** Running generation 51 ****** 
+
+Population's average fitness: -15.05761 stdev: 0.03691
+Best fitness: -14.99221 - size: (709, 49792) - species 1 - id 208
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   51     6    -15.0    0.047     3
+Total extinctions: 0
+Generation time: 4.715 sec (4.616 average)
+
+ ****** Running generation 52 ****** 
+
+Population's average fitness: -14.83745 stdev: 0.02790
+Best fitness: -14.79536 - size: (709, 49792) - species 1 - id 208
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   52     6    -14.8    0.040     0
+Total extinctions: 0
+Generation time: 4.550 sec (4.615 average)
+
+ ****** Running generation 53 ****** 
+
+Population's average fitness: -14.88154 stdev: 0.02499
+Best fitness: -14.85122 - size: (709, 49792) - species 1 - id 213
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   53     6    -14.9    0.040     1
+Total extinctions: 0
+Generation time: 4.752 sec (4.625 average)
+
+ ****** Running generation 54 ****** 
+
+Population's average fitness: -14.97999 stdev: 0.02415
+Best fitness: -14.95644 - size: (709, 49792) - species 1 - id 222
+Population of 6 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1   54     6    -15.0    0.044     2
+Total extinctions: 0
+Generation time: 4.541 sec (4.624 average)
+
+ ****** Running generation 55 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.06841 stdev: 0.93036
+Best fitness: -15.48132 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.01493 stdev: 1.51639
+Best fitness: -14.56759 - size: (709, 49792) - species 1 - id 4
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.18153 stdev: 1.32906
+Best fitness: -15.42447 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.77814 stdev: 1.48123
+Best fitness: -15.68578 - size: (709, 49792) - species 1 - id 4
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.68346 stdev: 1.80933
+Best fitness: -14.61133 - size: (709, 49792) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.96326 stdev: 2.84495
+Best fitness: -13.63094 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.06792 stdev: 0.75587
+Best fitness: -16.04978 - size: (709, 49792) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.19830 stdev: 1.16694
+Best fitness: -15.32585 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.86267 stdev: 1.23259
+Best fitness: -14.78938 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.19897 stdev: 1.08470
+Best fitness: -16.79390 - size: (709, 49792) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.02173 stdev: 0.96871
+Best fitness: -15.79596 - size: (709, 49792) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.06471 stdev: 1.41867
+Best fitness: -16.29719 - size: (709, 49792) - species 1 - id 4
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.44395 stdev: 1.95429
+Best fitness: -15.08711 - size: (709, 49792) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.70272 stdev: 2.04371
+Best fitness: -15.33894 - size: (709, 49792) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.91659 stdev: 1.60858
+Best fitness: -16.03620 - size: (709, 49792) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.93125 stdev: 1.07255
+Best fitness: -15.61739 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.99319 stdev: 0.83397
+Best fitness: -15.80355 - size: (709, 49792) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.90285 stdev: 3.16478
+Best fitness: -15.79917 - size: (709, 49792) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.76948 stdev: 1.79361
+Best fitness: -13.64413 - size: (709, 49792) - species 1 - id 4
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.48621 stdev: 1.98453
+Best fitness: -14.66629 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.91500 stdev: 0.66714
+Best fitness: -15.92125 - size: (709, 49792) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.48055 stdev: 1.19276
+Best fitness: -14.72801 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.33495 stdev: 3.15784
+Best fitness: -15.55320 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -19.64490 stdev: 4.70065
+Best fitness: -15.76130 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.60082 stdev: 2.22839
+Best fitness: -16.42617 - size: (709, 49792) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.92151 stdev: 1.08581
+Best fitness: -15.78209 - size: (709, 49792) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -15.67073 stdev: 0.87606
+Best fitness: -14.63072 - size: (709, 49792) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.91101 stdev: 1.18270
+Best fitness: -15.43560 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.46768 stdev: 2.17985
+Best fitness: -15.55387 - size: (709, 49792) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.40668 stdev: 0.88432
+Best fitness: -15.08997 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.75569 stdev: 2.34222
+Best fitness: -16.54666 - size: (709, 49792) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.23968 stdev: 2.09174
+Best fitness: -15.17065 - size: (709, 49792) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.71519 stdev: 2.02067
+Best fitness: -14.70094 - size: (709, 49792) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.27236 stdev: 0.81604
+Best fitness: -16.19680 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.61242 stdev: 0.78817
+Best fitness: -15.35101 - size: (709, 49792) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.08338 stdev: 1.09761
+Best fitness: -15.59493 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.63623 stdev: 2.48515
+Best fitness: -15.43550 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.04202 stdev: 1.24624
+Best fitness: -16.16746 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.21615 stdev: 1.26895
+Best fitness: -14.86236 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.72369 stdev: 2.41843
+Best fitness: -15.72744 - size: (709, 49792) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.33822 stdev: 2.04949
+Best fitness: -13.47334 - size: (709, 49792) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.11528 stdev: 0.98650
+Best fitness: -17.12877 - size: (709, 49792) - species 1 - id 2
+Population of 2 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    0     2    -17.1    0.500     0
+Total extinctions: 0
+Generation time: 3.220 sec
+
+ ****** Running generation 1 ****** 
+
+Population's average fitness: -18.13359 stdev: 1.16848
+Best fitness: -16.96510 - size: (709, 49792) - species 1 - id 2
+Population of 2 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    1     2    -17.0    0.500     0
+Total extinctions: 0
+Generation time: 1.724 sec (2.472 average)
+
+ ****** Running generation 2 ****** 
+
+Population's average fitness: -18.26704 stdev: 1.50490
+Best fitness: -16.76213 - size: (709, 49792) - species 1 - id 2
+Population of 2 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    2     2    -16.8    0.500     0
+Total extinctions: 0
+Generation time: 1.813 sec (2.252 average)
+
+ ****** Running generation 3 ****** 
+
+Population's average fitness: -18.19648 stdev: 1.10388
+Best fitness: -17.09260 - size: (709, 49792) - species 1 - id 2
+Population of 2 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    3     2    -17.1    0.500     1
+Total extinctions: 0
+Generation time: 1.862 sec (2.155 average)
+
+ ****** Running generation 4 ****** 
+
+Population's average fitness: -18.20717 stdev: 1.32647
+Best fitness: -16.88070 - size: (709, 49792) - species 1 - id 2
+Population of 2 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    4     2    -16.9    0.500     2
+Total extinctions: 0
+Generation time: 1.806 sec (2.085 average)
+
+ ****** Running generation 5 ****** 
+
+Population's average fitness: -18.07306 stdev: 0.87660
+Best fitness: -17.19645 - size: (709, 49792) - species 1 - id 2
+Population of 2 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    5     2    -17.2    0.500     3
+Total extinctions: 0
+Generation time: 2.039 sec (2.077 average)
+
+ ****** Running generation 6 ****** 
+
+Population's average fitness: -18.27442 stdev: 1.33464
+Best fitness: -16.93978 - size: (709, 49792) - species 1 - id 2
+Population of 2 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    6     2    -16.9    0.500     4
+Total extinctions: 0
+Generation time: 1.888 sec (2.050 average)
+
+ ****** Running generation 7 ****** 
+
+Population's average fitness: -18.39608 stdev: 1.37903
+Best fitness: -17.01705 - size: (709, 49792) - species 1 - id 2
+Population of 2 members in 1 species:
+   ID   age  size  fitness  adj fit  stag
+  ====  ===  ====  =======  =======  ====
+     1    7     2    -17.0    0.500     5
+Total extinctions: 0
+Generation time: 1.920 sec (2.034 average)
+
+ ****** Running generation 8 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.98734 stdev: 2.17297
+Best fitness: -17.14020 - size: (709, 49792) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.30718 stdev: 1.34154
+Best fitness: -15.86298 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.02189 stdev: 1.03047
+Best fitness: -15.11094 - size: (709, 49792) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.04491 stdev: 0.92319
+Best fitness: -15.02931 - size: (709, 49792) - species 1 - id 4
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -18.86470 stdev: 3.35907
+Best fitness: -15.71178 - size: (709, 49792) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
+
+ ****** Running generation 0 ****** 
+
