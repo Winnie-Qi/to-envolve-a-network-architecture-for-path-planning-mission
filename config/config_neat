@@ -36,6 +36,13 @@ conn_add_num            = 10
 conn_delete_prob        = 1
 conn_delete_num         = 5
 
+# mutate add layer rate
+mutate_add_layer = 0.1
+add_cnn_layer = 0.8
+add_layer_duplicate = 1
+add_layer_double = 0.6
+add_layer_halve = 0.2
+
 # connection enable options
 enabled_default         = True
 enabled_mutate_rate     = 0.00
@@ -45,9 +52,11 @@ initial_connection      = full
 
 # node add/remove rates
 node_add_prob           = 1
+node_add_one_layer      = 0.5
 node_add_num            = 10
 node_delete_prob        = 0.2
 node_delete_num         = 5
+parameter_cost = 0.00001
 
 # network parameters
 num_inputs              = 3
@@ -101,5 +110,3 @@ species_elitism      = 2
 [DefaultReproduction]
 elitism            = 2
 survival_threshold = 0.2
-
-#crossover_rate ?

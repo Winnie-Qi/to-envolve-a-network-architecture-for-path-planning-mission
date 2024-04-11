@@ -1596,3 +1596,88 @@ Best fitness: -15.71178 - size: (709, 49792) - species 1 - id 5
 
  ****** Running generation 0 ****** 
 
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.14041 stdev: 0.57394
+Best fitness: -15.30097 - size: (149, 27808) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.78067 stdev: 1.38711
+Best fitness: -15.07500 - size: (149, 27808) - species 1 - id 4
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.50944 stdev: 1.23930
+Best fitness: -14.63010 - size: (149, 27808) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.56697 stdev: 0.80102
+Best fitness: -15.60783 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.05094 stdev: 1.55871
+Best fitness: -15.07136 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.35560 stdev: 1.54536
+Best fitness: -15.35253 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.08632 stdev: 1.00514
+Best fitness: -15.13122 - size: (149, 27808) - species 1 - id 6
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.06174 stdev: 0.95525
+Best fitness: -15.32075 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.63280 stdev: 0.71550
+Best fitness: -15.40436 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.51679 stdev: 0.21432
+Best fitness: -16.21249 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.85880 stdev: 0.74260
+Best fitness: -15.50753 - size: (149, 27808) - species 1 - id 5
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.03172 stdev: 0.69872
+Best fitness: -15.10211 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.77935 stdev: 0.64890
+Best fitness: -15.85445 - size: (149, 27808) - species 1 - id 3
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -17.30954 stdev: 1.61177
+Best fitness: -15.07944 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -15.72513 stdev: 0.77842
+Best fitness: -14.44203 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.38337 stdev: 0.87674
+Best fitness: -14.98944 - size: (149, 27808) - species 1 - id 1
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.58784 stdev: 0.98602
+Best fitness: -15.14738 - size: (149, 27808) - species 1 - id 6

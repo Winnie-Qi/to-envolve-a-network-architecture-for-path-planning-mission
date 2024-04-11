@@ -50,7 +50,14 @@ class DefaultGenomeConfig(object):
                         ConfigParameter('nodes_every_layer', str),
                         ConfigParameter('kernel_size', int),
                         ConfigParameter('input_size', int),
-                        ConfigParameter('full_connect_input', bool)]
+                        ConfigParameter('full_connect_input', bool),
+                        ConfigParameter('mutate_add_layer', float),
+                        ConfigParameter('add_cnn_layer', float),
+                        ConfigParameter('add_layer_duplicate', float),
+                        ConfigParameter('add_layer_double', float),
+                        ConfigParameter('add_layer_double', float),
+                        ConfigParameter('node_add_one_layer', float),
+                        ConfigParameter('parameter_cost', float)]
 
         # Gather configuration data from the gene classes.
         self.node_gene_type = params['node_gene_type']
@@ -213,7 +220,7 @@ class DefaultGenome(object):
         self.size_output_cnn = convW[-1] * convW[-1]
 
         # Fitness results.
-        self.fitness = None
+        self.fitness = 0
 
     def configure_new(self, config):
         """Configure a new genome based on the given configuration."""
@@ -316,6 +323,9 @@ class DefaultGenome(object):
             if random() < config.node_delete_prob:
                 self.mutate_delete_node(config)
 
+            if random() < config.mutate_add_layer:
+                self.mutate_add_layer(config)
+
             if random() < config.conn_add_prob:
                 self.mutate_add_connection(config)
 
@@ -331,11 +341,16 @@ class DefaultGenome(object):
             ng.mutate(config, [self.nodes_every_layers[ng.layer-1], self.nodes_every_layers[ng.layer]])
 
     def mutate_add_node(self, config):
-        num = 0
+        old_fitness = self.fitness
+        in_one_layer = True if random() < config.node_add_one_layer else False # add nodes to one layer or randomly to all layers
+        if in_one_layer:
+            layer_num = randint(0, len(self.nodes_every_layers) - 2)
+            print("Add {} nodes in layer{}".format(config.node_add_num, layer_num))
+
         for i in range(config.node_add_num):
-            num += 1
             # Choose the layer to add node (not the last layer)
-            layer_num = randint(0, len(self.nodes_every_layers)-2)
+            if not in_one_layer:
+                layer_num = randint(0, len(self.nodes_every_layers)-2)
             node_type = self.layer[layer_num][0]
 
             # Revise the nodes_every_layers list
@@ -343,15 +358,22 @@ class DefaultGenome(object):
 
             new_node_id = config.get_new_node_key(self.nodes)
             if node_type == 'cnn':
-                ng = self.create_node(config, new_node_id, layer_num, 'cnn', self.nodes_every_layers[layer_num-1:layer_num+1])
+                if layer_num == 0:
+                    ng = self.create_node(config, new_node_id, layer_num, 'cnn',
+                                          [config.num_inputs, self.nodes_every_layers[layer_num]])
+                else:
+                    ng = self.create_node(config, new_node_id, layer_num, 'cnn',
+                                          self.nodes_every_layers[layer_num-1:layer_num+1])
+                self.fitness -= (len(ng.kernel) + 1) * config.parameter_cost # The cost of parameters in this added convolution kernel
             else:
                 ng = self.create_node(config, new_node_id, layer_num, 'fc', '_')
+                self.fitness -= 1 * config.parameter_cost  # The cost of this added fc node (bias)
 
             self.layer[layer_num][1].add(new_node_id)
             self.nodes[new_node_id] = ng
 
             # if the added node in fc/gnn layer ---- add connections
-            if layer_num > config.num_cnn_layer-1:
+            if layer_num > self.num_cnn_layer-1:
                 connections = []
                 #  Add connections to the next layer
                 if layer_num == len(self.nodes_every_layers)-2: # Add connection to output, if the added node in last layer
@@ -360,21 +382,28 @@ class DefaultGenome(object):
                 else:
                     for j in list(self.layer[layer_num + 1][1]):
                         connections.append((new_node_id, j))
-                for node1, node2 in connections:
-                    connection = self.create_connection(config, node1, node2,
+                for node_id in connections:
+                    connection = self.create_connection(config, node_id,
                                                         self.nodes_every_layers[layer_num : layer_num + 2],
                                                         (layer_num, layer_num + 1))
                     self.connections[connection.key] = connection
+                self.fitness -= len(connections) * config.parameter_cost
 
                 #  Add connections to the previous layer
                 connections = []
-                for j in list(self.layer[layer_num - 1][1]):
-                    connections.append((j, new_node_id))
-                for node1, node2 in connections:
-                    connection = self.create_connection(config, node1, node2,
+                if layer_num == self.num_cnn_layer: # if the added node in the first fc layer after cnn
+                    for i in list(self.layer[layer_num - 1][1]):
+                        for j in range(self.size_output_cnn):
+                            connections.append((i, new_node_id, j))
+                else:
+                    for j in list(self.layer[layer_num - 1][1]):
+                        connections.append((j, new_node_id))
+                for node_id in connections:
+                    connection = self.create_connection(config, node_id,
                                                         self.nodes_every_layers[layer_num - 1:layer_num + 1],
                                                         (layer_num - 1, layer_num))
                     self.connections[connection.key] = connection
+                self.fitness -= len(connections) * config.parameter_cost
 
             # if the added node in cnn layer but not the last cnn layer ---- add one layer to each kernel of next cnn layer
             elif layer_num < config.num_cnn_layer-1:
@@ -382,36 +411,26 @@ class DefaultGenome(object):
                     kernel_attribute = next((a for a in self.nodes[node_key]._gene_attributes if a.name == 'kernel'),None)
                     new_kernel_layer = kernel_attribute.add_layer(config, self.nodes_every_layers[layer_num:layer_num+2])
                     self.nodes[node_key].kernel.extend(new_kernel_layer)
+                    self.fitness -= len(new_kernel_layer) * config.parameter_cost # The cost of parameters in next layer convolution kernel
 
             # if the added node in the last cnn layer ---- add connections
             else:
-                pass
+                connections = []
+                for i in list(self.layer[layer_num+1][1]):
+                    for j in range(self.size_output_cnn):
+                        connections.append((new_node_id, i, j))
+                self.fitness -= len(connections) * config.parameter_cost
+                for node_id in connections:
+                    connection = self.create_connection(config, node_id,
+                                                        [self.nodes_every_layers[layer_num] * self.size_output_cnn,
+                                                         self.nodes_every_layers[layer_num + 1]], (layer_num, layer_num + 1))
+                    self.connections[connection.key] = connection
 
-        print("{0} nodes added!".format(num))
+            if not in_one_layer:
+                print("A node added in layer{}".format(layer_num))
+        print("Genome No.{} after nodes adding is: {}, with fitness cost {}".format(self.key, self.nodes_every_layers,
+                                                                                    self.fitness - old_fitness))
 
-    """
-    def mutate_add_node(self, config):
-        if not self.connections:
-            if config.check_structural_mutation_surer():
-                self.mutate_add_connection(config)
-            return
-
-        # Choose a random connection to split
-        conn_to_split = choice(list(self.connections.values()))
-        new_node_id = config.get_new_node_key(self.nodes)
-        ng = self.create_node(config, new_node_id, -198043)
-        self.nodes[new_node_id] = ng
-
-        # Disable this connection and create two new connections joining its nodes via
-        # the given node.  The new node+connections have roughly the same behavior as
-        # the original connection (depending on the activation function of the new node).
-        conn_to_split.enabled = False
-
-        i, o = conn_to_split.key
-        self.add_connection(config, i, new_node_id, 1.0, True)
-        self.add_connection(config, new_node_id, o, conn_to_split.weight, True)
-    """
-    # Not used
     def add_connection(self, config, input_key, output_key, weight, enabled):
 
         # TODO: Add further validation of this connection addition?
@@ -427,45 +446,6 @@ class DefaultGenome(object):
         connection.enabled = enabled
         self.connections[key] = connection
 
-    """
-    def mutate_add_connection(self, config):
-        """"""
-        Attempt to add a new connection, the only restriction being that the output
-        node cannot be one of the network input pins.
-        """"""
-        possible_outputs = list(iterkeys(self.nodes))
-        out_node = choice(possible_outputs)
-
-        possible_inputs = possible_outputs + config.input_keys
-        in_node = choice(possible_inputs)
-
-        # Don't duplicate connections.
-        key = (in_node, out_node)
-        if key in self.connections:
-            # TODO: Should this be using mutation to/from rates? Hairy to configure...
-            if config.check_structural_mutation_surer():
-                self.connections[key].enabled = True
-            return
-
-        # Don't allow connections between two output nodes
-        if in_node in config.output_keys and out_node in config.output_keys:
-            return
-
-        # No need to check for connections between input nodes:
-        # they cannot be the output end of a connection (see above).
-
-        # For feed-forward networks, avoid creating cycles.
-        if config.feed_forward and creates_cycle(list(iterkeys(self.connections)), key):
-            return
-
-        cg = self.create_connection(config, in_node, out_node)
-        self.connections[cg.key] = cg
-
-    """
-    # Added by Andrew @20181107
-    # Add a connection to the network.
-    # TODO: Add connection with the probability according to its connections already has.
-    # TODO: Add connection according to the conncetion type parameter in the config file
     def mutate_add_connection(self, config):
         num = 0
         for i in range(config.conn_add_num):
@@ -559,6 +539,12 @@ class DefaultGenome(object):
                 del self.connections[key]
                 num += 1
         print("{0} connections deleted!".format(num))
+
+    def mutate_add_layer(self, config):
+        if random < config.add_cnn_layer: # add cnn layer
+            pass
+        else: # add fc layer
+            pass
 
     def distance(self, other, config):
         """
