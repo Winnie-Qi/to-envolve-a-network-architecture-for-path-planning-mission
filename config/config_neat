@@ -51,11 +51,12 @@ feed_forward            = True
 initial_connection      = full
 
 # node add/remove rates
-node_add_prob           = 1
+node_add_prob           = 0.2
 node_add_one_layer      = 0.5
 node_add_num            = 10
-node_delete_prob        = 0.2
+node_delete_prob        = 0.1
 node_delete_num         = 5
+node_delete_one_layer   = 0.4
 parameter_cost = 0.00001
 
 # network parameters

@@ -57,6 +57,7 @@ class DefaultGenomeConfig(object):
                         ConfigParameter('add_layer_double', float),
                         ConfigParameter('add_layer_double', float),
                         ConfigParameter('node_add_one_layer', float),
+                        ConfigParameter('node_delete_one_layer', float),
                         ConfigParameter('parameter_cost', float)]
 
         # Gather configuration data from the gene classes.
@@ -428,7 +429,7 @@ class DefaultGenome(object):
 
             if not in_one_layer:
                 print("A node added in layer{}".format(layer_num))
-        print("Genome No.{} after nodes adding is: {}, with fitness cost {}".format(self.key, self.nodes_every_layers,
+        print("Genome No.{} after nodes adding is: {}, with fitness reward {}".format(self.key, self.nodes_every_layers,
                                                                                     self.fitness - old_fitness))
 
     def add_connection(self, config, input_key, output_key, weight, enabled):
@@ -491,44 +492,62 @@ class DefaultGenome(object):
         print("{0} connections added!".format(num))
 
     def mutate_delete_node(self, config):
-        num = 0
-        for i in range(config.node_delete_num):
-            # Do nothing if there are no non-output nodes.
+        old_fitness = self.fitness
+        deleted_nodes = set()
+        in_one_layer = True if random() < config.node_delete_one_layer else False  # add nodes to one layer or randomly to all layers
+        if in_one_layer:
+            layer_num = randint(0, self.num_cnn_layer)
+            print("Delete {} nodes in layer{}".format(config.node_delete_num, layer_num))
+            available_nodes = list(self.layer[layer_num][1])
+            if len(available_nodes) < config.node_delete_num:
+                in_one_layer = False
+        else:
             available_nodes = [k for k in iterkeys(self.nodes) if k not in config.output_keys]
+
+        for i in range(config.node_delete_num):
             if not available_nodes:
-                continue
+                break
 
             del_key = choice(available_nodes)
-
-            # Cannot delete node in the first fc layer
-            #if self.nodes[del_key].layer == config.num_cnn_layer:
-            #    return -1
-
-            # Cannot delete node in the last (output) layer
-            if self.nodes[del_key].layer == config.num_layer:
-                continue
-
+            available_nodes.remove(del_key)
+            layer_num = self.nodes[del_key].layer
+            deleted_nodes.add((del_key, layer_num))
             # If there is only one node
-            if len(self.layer[self.nodes[del_key].layer][1]) <= 1:
-                continue
+            while len(self.layer[layer_num][1]) <= 1:
+                del_key = choice(available_nodes)
+                layer_num = self.nodes[del_key].layer
 
-            connections_to_delete = set()
-            for k, v in iteritems(self.connections):
-                if del_key in v.key:
-                    connections_to_delete.add(v.key)
+            if layer_num < self.num_cnn_layer - 1: # deleted node in cnn layers but not in the last cnn layer
+                # The number of layer of next-layer convolution kernel needs to be reduced
+                del_node_index = sorted(list(self.layer[layer_num][1])).index(del_key)
+                for node_key in self.layer[layer_num + 1][1]:
+                    self.nodes[node_key].kernel[config.kernel_size * del_node_index: config.kernel_size * (del_node_index + 1)] = []
+                    self.fitness += config.kernel_size * config.parameter_cost
+                self.fitness += len(self.nodes[del_key].kernel) * config.parameter_cost
 
-            for key in connections_to_delete:
-                del self.connections[key]
+            else: # deleted node in fc layers or the last cnn layer
+                if layer_num < self.num_cnn_layer:
+                    self.fitness += len(self.nodes[del_key].kernel) * config.parameter_cost
+                connections_to_delete = set()
+                for node_id in iteritems(self.connections):
+                    if del_key in node_id[0][:2]:
+                        connections_to_delete.add(node_id[0])
 
-            self.layer[self.nodes[del_key].layer][1].remove(del_key)
+                for key in connections_to_delete:
+                    del self.connections[key]
 
-            # Revise the nodes_every_layers list
-            self.nodes_every_layers[self.nodes[del_key].layer] -= 1
+                self.fitness += (len(connections_to_delete) + 1) * config.parameter_cost
 
+            if not in_one_layer:
+                print("A node deleted in layer{}".format(layer_num))
+
+        for del_key, layer_num in deleted_nodes:
+            self.layer[layer_num][1].remove(del_key)
+            self.nodes_every_layers[layer_num] -= 1
             del self.nodes[del_key]
 
-            num += 1
-        print("{0} nodes deleted!".format(num))
+        print("Genome No.{} after nodes deletion is: {}, with fitness reward {}".format(self.key, self.nodes_every_layers,
+                                                                                    self.fitness - old_fitness))
 
     def mutate_delete_connection(self, config):
         num = 0
