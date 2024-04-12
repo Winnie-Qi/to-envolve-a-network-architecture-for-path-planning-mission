@@ -37,10 +37,9 @@ conn_delete_prob        = 1
 conn_delete_num         = 5
 
 # mutate add layer rate
-mutate_add_layer = 0.1
-add_cnn_layer = 0.8
-add_layer_duplicate = 1
-add_layer_double = 0.6
+mutate_add_layer = 1
+add_cnn_layer = 1
+add_layer_double = 0.4
 add_layer_halve = 0.2
 
 # connection enable options

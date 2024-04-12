@@ -53,9 +53,8 @@ class DefaultGenomeConfig(object):
                         ConfigParameter('full_connect_input', bool),
                         ConfigParameter('mutate_add_layer', float),
                         ConfigParameter('add_cnn_layer', float),
-                        ConfigParameter('add_layer_duplicate', float),
                         ConfigParameter('add_layer_double', float),
-                        ConfigParameter('add_layer_double', float),
+                        ConfigParameter('add_layer_halve', float),
                         ConfigParameter('node_add_one_layer', float),
                         ConfigParameter('node_delete_one_layer', float),
                         ConfigParameter('parameter_cost', float)]
@@ -529,9 +528,9 @@ class DefaultGenome(object):
                 if layer_num < self.num_cnn_layer:
                     self.fitness += len(self.nodes[del_key].kernel) * config.parameter_cost
                 connections_to_delete = set()
-                for node_id in iteritems(self.connections):
-                    if del_key in node_id[0][:2]:
-                        connections_to_delete.add(node_id[0])
+                for connection in iteritems(self.connections):
+                    if del_key in connection[0][:2]:
+                        connections_to_delete.add(connection[0])
 
                 for key in connections_to_delete:
                     del self.connections[key]
@@ -560,8 +559,52 @@ class DefaultGenome(object):
         print("{0} connections deleted!".format(num))
 
     def mutate_add_layer(self, config):
-        if random < config.add_cnn_layer: # add cnn layer
-            pass
+        old_fitness = self.fitness
+        if random() < config.add_cnn_layer: # add cnn layer
+            a = random()
+            if a < config.add_layer_halve:
+                node_add_num = self.nodes_every_layers[self.num_cnn_layer-1] / 2 # number of added nodes halves the last cnn layer
+            elif a < config.add_layer_double:
+                node_add_num = self.nodes_every_layers[self.num_cnn_layer - 1] * 2 # number of added nodes doubles the last cnn layer
+            else:
+                node_add_num = self.nodes_every_layers[self.num_cnn_layer - 1] # number of added nodes duplicates the last cnn layer
+
+            # update configuration
+            self.padding_mask.append(1)
+            self.maxpooling_mask.append(1) if self.maxpooling_mask[-1] == 0 else self.maxpooling_mask.append(0)
+            layer_num = self.num_cnn_layer
+            self.num_cnn_layer += 1
+            self.nodes_every_layers.insert(layer_num, node_add_num)
+            self.layer.insert(layer_num, ['cnn', set()])
+
+            # Add one to the number of layer in the attributes of every node in subsequent layers
+            for _, layer in self.layer[layer_num:]:
+                for node_key in layer:
+                    self.nodes[node_key].layer += 1
+
+            # Delete connections between last cnn layer and the next fc layer
+            connections_to_delete = set()
+            for connection in iteritems(self.connections):
+                if layer_num in connection[1].connect_layer:
+                    connections_to_delete.add(connection[0])
+                connection[1].connect_layer = [x + 1 for x in connection[1].connect_layer]
+            for key in connections_to_delete:
+                del self.connections[key]
+            self.fitness += (len(connections_to_delete) + 1) * config.parameter_cost
+
+            # add nodes
+            added_node_key = set()
+            for i in range(node_add_num):
+                new_node_id = config.get_new_node_key(self.nodes)
+                added_node_key.add(new_node_id)
+                ng = self.create_node(config, new_node_id, layer_num, 'cnn',
+                                      [self.nodes_every_layers[layer_num - 1], node_add_num])
+                self.nodes[new_node_id] = ng
+                self.fitness -= (len(ng.kernel) + 1) * config.parameter_cost
+
+            # 重新计算num_cnn_output
+            # 添加新的connections
+
         else: # add fc layer
             pass
 
