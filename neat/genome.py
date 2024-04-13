@@ -55,6 +55,7 @@ class DefaultGenomeConfig(object):
                         ConfigParameter('add_cnn_layer', float),
                         ConfigParameter('add_layer_double', float),
                         ConfigParameter('add_layer_halve', float),
+                        ConfigParameter('add_fc_before_gnn', float),
                         ConfigParameter('node_add_one_layer', float),
                         ConfigParameter('node_delete_one_layer', float),
                         ConfigParameter('parameter_cost', float)]
@@ -522,11 +523,11 @@ class DefaultGenome(object):
                 for node_key in self.layer[layer_num + 1][1]:
                     self.nodes[node_key].kernel[config.kernel_size * del_node_index: config.kernel_size * (del_node_index + 1)] = []
                     self.fitness += config.kernel_size * config.parameter_cost
-                self.fitness += len(self.nodes[del_key].kernel) * config.parameter_cost
+                self.fitness += (len(self.nodes[del_key].kernel) + 1) * config.parameter_cost
 
             else: # deleted node in fc layers or the last cnn layer
-                if layer_num < self.num_cnn_layer:
-                    self.fitness += len(self.nodes[del_key].kernel) * config.parameter_cost
+                if layer_num < self.num_cnn_layer: # the last cnn layer
+                    self.fitness += (len(self.nodes[del_key].kernel) + 1) * config.parameter_cost
                 connections_to_delete = set()
                 for connection in iteritems(self.connections):
                     if del_key in connection[0][:2]:
@@ -591,7 +592,7 @@ class DefaultGenome(object):
             # Delete connections between last cnn layer and the next fc layer
             connections_to_delete = set()
             for connection in iteritems(self.connections):
-                if layer_num in connection[1].connect_layer:
+                if layer_num == connection[1].connect_layer[1]:
                     connections_to_delete.add(connection[0])
                 connection[1].connect_layer = [x + 1 for x in connection[1].connect_layer]
             for key in connections_to_delete:
@@ -621,10 +622,60 @@ class DefaultGenome(object):
             self.fitness -= len(connections) * config.parameter_cost
 
         else: # add fc layer
-            pass
+            a = random()
+            if a < config.add_fc_before_gnn: # add a fc layer before the gnn layer
+                layer_num = self.num_cnn_layer + self.dense_after_cnn
+            else: # add a fc layer before the output layer
+                layer_num = len(self.nodes_every_layers) - 1
+            a = random()
+            if a < config.add_layer_halve:
+                node_add_num = int(self.nodes_every_layers[layer_num - 1] / 2)  # number of added nodes halves the previous layer
+            elif a < config.add_layer_double:
+                node_add_num = self.nodes_every_layers[layer_num - 1] * 2  # number of added nodes doubles the previous layer
+            else:
+                node_add_num = self.nodes_every_layers[layer_num - 1]  # number of added nodes duplicates the previous layer
 
+            # Add one to the number of layer in the attributes of every node in subsequent layers
+            for _, layer in self.layer[layer_num:]:
+                for node_key in layer:
+                    self.nodes[node_key].layer += 1
 
+            self.layer.insert(layer_num, ['fc', set()])
 
+            # Delete connections between previous layer and next layer
+            connections_to_delete = set()
+            for connection in iteritems(self.connections):
+                if layer_num == connection[1].connect_layer[1]:
+                    connections_to_delete.add(connection[0])
+                if connection[1].connect_layer[1] >= layer_num:
+                    connection[1].connect_layer = [x + 1 for x in connection[1].connect_layer]
+            for key in connections_to_delete:
+                del self.connections[key]
+            self.fitness += len(connections_to_delete) * config.parameter_cost
+
+            self.nodes_every_layers.insert(layer_num, node_add_num)
+
+            # Add nodes and connections
+            for i in range(node_add_num):
+                new_node_id = config.get_new_node_key(self.nodes)
+                ng = self.create_node(config, new_node_id, layer_num, 'fc',
+                                      [self.nodes_every_layers[layer_num - 1], node_add_num])
+                self.nodes[new_node_id] = ng
+                self.layer[layer_num][1].add(new_node_id)
+                for i in list(self.layer[layer_num - 1][1]):
+                    node_id = (i, new_node_id)
+                    connection = self.create_connection(config, node_id,
+                                                        [self.nodes_every_layers[layer_num - 1], node_add_num],
+                                                        (layer_num - 1, layer_num))
+                    self.connections[connection.key] = connection
+                for i in list(self.layer[layer_num + 1][1]):
+                    node_id = (new_node_id, i)
+                    connection = self.create_connection(config, node_id,
+                                                        [node_add_num, self.nodes_every_layers[layer_num + 1]],
+                                                        (layer_num, layer_num + 1))
+                    self.connections[connection.key] = connection
+            self.fitness -= node_add_num * config.parameter_cost
+            self.fitness -= self.nodes_every_layers[layer_num - 1] * node_add_num * self.nodes_every_layers[layer_num + 1]
 
     def distance(self, other, config):
         """
