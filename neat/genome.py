@@ -216,7 +216,7 @@ class DefaultGenome(object):
             if i % 2 == 0:
                 W_tmp = int((W_tmp - 2) / 2) + 1
             convW.append(W_tmp)
-        self.size_output_every_cnn = convW[1:]
+        self.size_width_every_cnn = convW[1:]
         self.size_output_cnn = convW[-1] * convW[-1]
 
         # Fitness results.
@@ -563,7 +563,7 @@ class DefaultGenome(object):
         if random() < config.add_cnn_layer: # add cnn layer
             a = random()
             if a < config.add_layer_halve:
-                node_add_num = self.nodes_every_layers[self.num_cnn_layer-1] / 2 # number of added nodes halves the last cnn layer
+                node_add_num = int(self.nodes_every_layers[self.num_cnn_layer-1] / 2) # number of added nodes halves the last cnn layer
             elif a < config.add_layer_double:
                 node_add_num = self.nodes_every_layers[self.num_cnn_layer - 1] * 2 # number of added nodes doubles the last cnn layer
             else:
@@ -575,12 +575,18 @@ class DefaultGenome(object):
             layer_num = self.num_cnn_layer
             self.num_cnn_layer += 1
             self.nodes_every_layers.insert(layer_num, node_add_num)
-            self.layer.insert(layer_num, ['cnn', set()])
-
             # Add one to the number of layer in the attributes of every node in subsequent layers
             for _, layer in self.layer[layer_num:]:
                 for node_key in layer:
                     self.nodes[node_key].layer += 1
+            self.layer.insert(layer_num, ['cnn', set()])
+            # recompute num_cnn_output
+            FilterTaps = int(pow(config.kernel_size, 0.5))
+            W_tmp = int((self.size_width_every_cnn[-1] - FilterTaps + 2 * self.padding_mask[-1])) + 1
+            if self.maxpooling_mask[-1]:
+                W_tmp = int((W_tmp - 2) / 2) + 1
+            self.size_width_every_cnn.append(W_tmp)
+            self.size_output_cnn = self.size_width_every_cnn[-1] * 2
 
             # Delete connections between last cnn layer and the next fc layer
             connections_to_delete = set()
@@ -593,20 +599,32 @@ class DefaultGenome(object):
             self.fitness += (len(connections_to_delete) + 1) * config.parameter_cost
 
             # add nodes
-            added_node_key = set()
+            connections = []
             for i in range(node_add_num):
                 new_node_id = config.get_new_node_key(self.nodes)
-                added_node_key.add(new_node_id)
                 ng = self.create_node(config, new_node_id, layer_num, 'cnn',
                                       [self.nodes_every_layers[layer_num - 1], node_add_num])
                 self.nodes[new_node_id] = ng
+                self.layer[layer_num][1].add(new_node_id)
                 self.fitness -= (len(ng.kernel) + 1) * config.parameter_cost
+                for j in list(self.layer[layer_num + 1][1]):
+                    for k in range(self.size_output_cnn):
+                        connections.append((new_node_id, j, k))
 
-            # 重新计算num_cnn_output
-            # 添加新的connections
+            # add new connections
+            for node_id in connections:
+                connection = self.create_connection(config, node_id,
+                                                    [self.nodes_every_layers[layer_num] * self.size_output_cnn,
+                                                     self.nodes_every_layers[layer_num + 1]],
+                                                    (layer_num, layer_num + 1))
+                self.connections[connection.key] = connection
+            self.fitness -= len(connections) * config.parameter_cost
 
         else: # add fc layer
             pass
+
+
+
 
     def distance(self, other, config):
         """
