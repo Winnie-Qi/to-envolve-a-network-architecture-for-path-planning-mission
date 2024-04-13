@@ -58,6 +58,8 @@ class DefaultGenomeConfig(object):
                         ConfigParameter('add_fc_before_gnn', float),
                         ConfigParameter('node_add_one_layer', float),
                         ConfigParameter('node_delete_one_layer', float),
+                        ConfigParameter('add_direct_conn', float),
+                        ConfigParameter('direct_conn_num', float),
                         ConfigParameter('parameter_cost', float)]
 
         # Gather configuration data from the gene classes.
@@ -327,6 +329,9 @@ class DefaultGenome(object):
             if random() < config.mutate_add_layer:
                 self.mutate_add_layer(config)
 
+            if random() < config.add_direct_conn:
+                self.add_direct_conn(config)
+
             if random() < config.conn_add_prob:
                 self.mutate_add_connection(config)
 
@@ -446,6 +451,16 @@ class DefaultGenome(object):
         connection.weight = weight
         connection.enabled = enabled
         self.connections[key] = connection
+
+    def add_direct_conn(self, config):
+        in_layer = self.num_cnn_layer + self.dense_after_cnn - 1
+        out_layer_list = [x for x in range(len(self.nodes_every_layers) - self.dense_after_gnn, len(self.nodes_every_layers))]
+        out_layer = choice(out_layer_list)
+        available_in_nodes = list(self.layer[in_layer][1])
+        available_out_nodes = list(self.layer[out_layer][1])
+        for i in range(config.direct_conn_num):
+            in_node = choice(available_in_nodes)
+            out_node = choice(available_out_nodes)
 
     def mutate_add_connection(self, config):
         num = 0
@@ -621,12 +636,20 @@ class DefaultGenome(object):
                 self.connections[connection.key] = connection
             self.fitness -= len(connections) * config.parameter_cost
 
+            print("Genome No.{} adds a fc layer after cnn layer with {} nodes, with fitness reward {}".format(self.key,
+                                                                                            node_add_num,
+                                                                                            self.fitness - old_fitness))
+
         else: # add fc layer
             a = random()
             if a < config.add_fc_before_gnn: # add a fc layer before the gnn layer
                 layer_num = self.num_cnn_layer + self.dense_after_cnn
+                self.dense_after_cnn += 1
+                a_log = 'before gnn layer'
             else: # add a fc layer before the output layer
                 layer_num = len(self.nodes_every_layers) - 1
+                self.dense_after_gnn += 1
+                a_log = 'after gnn layer'
             a = random()
             if a < config.add_layer_halve:
                 node_add_num = int(self.nodes_every_layers[layer_num - 1] / 2)  # number of added nodes halves the previous layer
@@ -675,7 +698,11 @@ class DefaultGenome(object):
                                                         (layer_num, layer_num + 1))
                     self.connections[connection.key] = connection
             self.fitness -= node_add_num * config.parameter_cost
-            self.fitness -= self.nodes_every_layers[layer_num - 1] * node_add_num * self.nodes_every_layers[layer_num + 1]
+            self.fitness -= (self.nodes_every_layers[layer_num - 1] * node_add_num *
+                             self.nodes_every_layers[layer_num + 1]) * config.parameter_cost
+            print("Genome No.{} adds a fc layer {} with {} nodes, with fitness reward {}".format(self.key, a_log,
+                                                                                               node_add_num,
+                                                                                               self.fitness - old_fitness))
 
     def distance(self, other, config):
         """

@@ -31,6 +31,8 @@ compatibility_disjoint_coefficient = 1.0
 compatibility_weight_coefficient   = 0.5
 
 # connection add/remove rates
+add_direct_conn         = 1
+direct_conn_num         = 5
 conn_add_prob           = 1
 conn_add_num            = 10
 conn_delete_prob        = 1
@@ -39,7 +41,7 @@ conn_delete_num         = 5
 # mutate add layer rate
 mutate_add_layer = 1
 add_cnn_layer = 0
-add_fc_before_gnn = 0.5
+add_fc_before_gnn = 0
 add_layer_double = 0.4
 add_layer_halve = 0.2
 
