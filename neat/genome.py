@@ -59,7 +59,7 @@ class DefaultGenomeConfig(object):
                         ConfigParameter('node_add_one_layer', float),
                         ConfigParameter('node_delete_one_layer', float),
                         ConfigParameter('add_direct_conn', float),
-                        ConfigParameter('direct_conn_num', float),
+                        ConfigParameter('direct_conn_num', int),
                         ConfigParameter('parameter_cost', float)]
 
         # Gather configuration data from the gene classes.
@@ -222,6 +222,8 @@ class DefaultGenome(object):
         self.size_width_every_cnn = convW[1:]
         self.size_output_cnn = convW[-1] * convW[-1]
 
+        self.direct_conn = []
+
         # Fitness results.
         self.fitness = 0
 
@@ -330,7 +332,7 @@ class DefaultGenome(object):
                 self.mutate_add_layer(config)
 
             if random() < config.add_direct_conn:
-                self.add_direct_conn(config)
+                self.mutate_add_direct_conn(config)
 
             if random() < config.conn_add_prob:
                 self.mutate_add_connection(config)
@@ -452,15 +454,31 @@ class DefaultGenome(object):
         connection.enabled = enabled
         self.connections[key] = connection
 
-    def add_direct_conn(self, config):
+    def mutate_add_direct_conn(self, config):
+        old_fitness = self.fitness
         in_layer = self.num_cnn_layer + self.dense_after_cnn - 1
         out_layer_list = [x for x in range(len(self.nodes_every_layers) - self.dense_after_gnn, len(self.nodes_every_layers))]
         out_layer = choice(out_layer_list)
         available_in_nodes = list(self.layer[in_layer][1])
         available_out_nodes = list(self.layer[out_layer][1])
+        direct_conn = [] # do not duplicate connections
         for i in range(config.direct_conn_num):
             in_node = choice(available_in_nodes)
             out_node = choice(available_out_nodes)
+            if (in_node, out_node) in direct_conn:
+                continue
+            direct_conn.append((in_node, out_node))
+            connection = self.create_connection(config, (in_node, out_node),
+                                                [(self.nodes_every_layers[out_layer - 1] + 1), self.nodes_every_layers[out_layer]],
+                                                (in_layer, out_layer))
+            self.connections[connection.key] = connection
+            self.direct_conn.append((in_node, out_node))
+        self.fitness -= (i + 1) * config.parameter_cost
+        print("Genome No.{} adds {} connections between layer {} and {}, with fitness reward {}".format(self.key,
+                                                                                                        i + 1,
+                                                                                                        in_layer,
+                                                                                                        out_layer,
+                                                                                                        self.fitness - old_fitness))
 
     def mutate_add_connection(self, config):
         num = 0
