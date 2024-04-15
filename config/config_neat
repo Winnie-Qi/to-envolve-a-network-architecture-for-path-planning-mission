@@ -38,6 +38,12 @@ conn_add_num            = 10
 conn_delete_prob        = 1
 conn_delete_num         = 5
 
+# mutate the first layer cnn
+mutate_depthwise_conv = 1
+depthwise_conv_num = 2
+pointwise_after_depthwise = 0.5
+single_channel_conv = 0.5
+
 # mutate add layer rate
 mutate_add_layer = 1
 add_cnn_layer = 0
@@ -45,9 +51,11 @@ add_fc_before_gnn = 0
 add_layer_double = 0.4
 add_layer_halve = 0.2
 
-# connection enable options
-enabled_default         = True
-enabled_mutate_rate     = 0.00
+# cnn options
+depth_wise_mutate_rate     = 0.1
+point_wise_mutate_rate     = 0.1
+single_channel_mutate_rate     = 0.1
+cancle_padding_mutate_rate     = 0.1
 
 feed_forward            = True
 initial_connection      = full

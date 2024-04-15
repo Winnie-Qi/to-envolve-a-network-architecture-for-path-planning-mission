@@ -90,10 +90,10 @@ class FloatAttribute(BaseAttribute):
 
 class BoolAttribute(BaseAttribute):
     """Class for boolean attributes such as whether a connection is enabled or not."""
-    _config_items = {"default": [str, None],
+    _config_items = {"default": [bool, False],
                      "mutate_rate": [float, None],
-                     "rate_to_true_add": [float, 0.0],
-                     "rate_to_false_add": [float, 0.0]}
+                     "rate_to_true_add": [float, 0.8],
+                     "rate_to_false_add": [float, 0.5]}
 
     def init_value(self, config, _):
         default = str(getattr(config, self.default_name)).lower()
@@ -124,39 +124,6 @@ class BoolAttribute(BaseAttribute):
                 # attributes (the mutation operation *may* change the value but is not
                 # guaranteed to do so).
                 return random() < 0.5
-
-        return value
-
-    def validate(self, config):  # pragma: no cover
-        pass
-
-
-class StringAttribute(BaseAttribute):
-    """
-    Class for string attributes such as the aggregation function of a node,
-    which are selected from a list of options.
-    """
-    _config_items = {"default": [str, 'random'],
-                     "options": [list, None],
-                     "mutate_rate": [float, None]}
-
-    def init_value(self, config, _):
-        default = getattr(config, self.default_name)
-
-        if default.lower() in ('none', 'random'):
-            options = getattr(config, self.options_name)
-            return choice(options)
-
-        return default
-
-    def mutate_value(self, value, config, _):
-        mutate_rate = getattr(config, self.mutate_rate_name)
-
-        if mutate_rate > 0:
-            r = random()
-            if r < mutate_rate:
-                options = getattr(config, self.options_name)
-                return choice(options)
 
         return value
 

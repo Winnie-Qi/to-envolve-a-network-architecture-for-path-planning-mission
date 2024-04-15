@@ -9,7 +9,7 @@ import sys
 from neat.activations import ActivationFunctionSet
 from neat.aggregations import AggregationFunctionSet
 from neat.config import ConfigParameter, write_pretty_params
-from neat.genes import DefaultConnectionGene, DefaultNodeGene
+from neat.genes import DefaultConnectionGene, DefaultNodeGeneCNN, DefaultNodeGeneFC
 from neat.graphs import creates_cycle
 from neat.six_util import iteritems, iterkeys
 
@@ -63,8 +63,10 @@ class DefaultGenomeConfig(object):
                         ConfigParameter('parameter_cost', float)]
 
         # Gather configuration data from the gene classes.
-        self.node_gene_type = params['node_gene_type']
-        self._params += self.node_gene_type.get_config_params()
+        self.cnn_node_gene_type = params['cnn_node_gene_type']
+        self.fc_node_gene_type = params['fc_node_gene_type']
+        self._params += self.cnn_node_gene_type.get_config_params()
+        self._params += self.fc_node_gene_type.get_config_params()
         self.connection_gene_type = params['connection_gene_type']
         self._params += self.connection_gene_type.get_config_params()
 
@@ -173,7 +175,8 @@ class DefaultGenome(object):
 
     @classmethod
     def parse_config(cls, param_dict):
-        param_dict['node_gene_type'] = DefaultNodeGene
+        param_dict['cnn_node_gene_type'] = DefaultNodeGeneCNN
+        param_dict['fc_node_gene_type'] = DefaultNodeGeneFC
         param_dict['connection_gene_type'] = DefaultConnectionGene
         return DefaultGenomeConfig(param_dict)
 
@@ -461,13 +464,11 @@ class DefaultGenome(object):
         out_layer = choice(out_layer_list)
         available_in_nodes = list(self.layer[in_layer][1])
         available_out_nodes = list(self.layer[out_layer][1])
-        direct_conn = [] # do not duplicate connections
         for i in range(config.direct_conn_num):
             in_node = choice(available_in_nodes)
             out_node = choice(available_out_nodes)
-            if (in_node, out_node) in direct_conn:
+            if (in_node, out_node) in self.connections: # do not duplicate connections
                 continue
-            direct_conn.append((in_node, out_node))
             connection = self.create_connection(config, (in_node, out_node),
                                                 [(self.nodes_every_layers[out_layer - 1] + 1), self.nodes_every_layers[out_layer]],
                                                 (in_layer, out_layer))
@@ -479,6 +480,11 @@ class DefaultGenome(object):
                                                                                                         in_layer,
                                                                                                         out_layer,
                                                                                                         self.fitness - old_fitness))
+
+    def mutate_depthwise_conv(self, config):
+        available_in_nodes = list(self.layer[0][1])
+        for i in range(config.depthwise_conv_num):
+            choice(available_in_nodes)
 
     def mutate_add_connection(self, config):
         num = 0
@@ -803,14 +809,17 @@ class DefaultGenome(object):
 
     @staticmethod
     def create_node(config, node_id, layer, node_type, num_nodes):
-        node = config.node_gene_type(node_id, layer)
-        node.init_attributes(config, node_type, num_nodes)
+        if node_type == 'cnn':
+            node = config.cnn_node_gene_type(node_id, layer)
+        else:
+            node = config.fc_node_gene_type(node_id, layer)
+        node.init_attributes(config, num_nodes)
         return node
 
     @staticmethod
     def create_connection(config, node_id, num_nodes,connect_layer):
         connection = config.connection_gene_type(node_id, connect_layer)
-        connection.init_attributes(config,0,num_nodes)
+        connection.init_attributes(config,num_nodes)
         return connection
 
     def connect_fs_neat_nohidden(self, config):

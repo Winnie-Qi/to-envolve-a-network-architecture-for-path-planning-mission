@@ -1,7 +1,7 @@
 """Handles node and connection genes."""
 import warnings
 from random import random
-from neat.attributes import FloatAttribute, BoolAttribute, StringAttribute, ListAttribute
+from neat.attributes import FloatAttribute, BoolAttribute, ListAttribute
 
 # TODO: There is probably a lot of room for simplification of these classes using metaprogramming.
 # TODO: Evaluate using __slots__ for performance/memory usage improvement.
@@ -41,10 +41,8 @@ class BaseGene(object):
             params += a.get_config_params()
         return params
 
-    def init_attributes(self, config, node_type, num_nodes):
+    def init_attributes(self, config, num_nodes):
         for a in self._gene_attributes:
-            if node_type == 'fc' and a.name == 'kernel':
-                continue
             setattr(self, a.name, a.init_value(config, num_nodes))
 
     def mutate(self, config, num_nodes):
@@ -111,11 +109,12 @@ class BaseGene(object):
 # TODO: Should these be in the nn module?  iznn and ctrnn can have additional attributes.
 
 
-class DefaultNodeGene(BaseGene):
+class DefaultNodeGeneCNN(BaseGene):
     _gene_attributes = [FloatAttribute('bias'),
-                        FloatAttribute('response'),
-                        StringAttribute('activation', options='sigmoid'),
-                        StringAttribute('aggregation', options='sum'),
+                        BoolAttribute('depth_wise'),
+                        BoolAttribute('point_wise'),
+                        BoolAttribute('single_channel'),
+                        BoolAttribute('cancle_padding'),
                         ListAttribute('kernel')]
 
     def __init__(self, key, layer):
@@ -124,13 +123,28 @@ class DefaultNodeGene(BaseGene):
         self.layer = layer
 
     def distance(self, other, config):
-        d = abs(self.bias - other.bias) + abs(self.response - other.response)
-        if self.activation != other.activation:
+        d = abs(self.bias - other.bias)
+        if self.depth_wise != other.depth_wise:
             d += 1.0
-        if self.aggregation != other.aggregation:
+        if self.point_wise != other.point_wise:
+            d += 1.0
+        if self.single_channel != other.depth_wise:
+            d += 1.0
+        if self.cancle_padding != other.point_wise:
             d += 1.0
         return d * config.compatibility_weight_coefficient
 
+class DefaultNodeGeneFC(BaseGene):
+    _gene_attributes = [FloatAttribute('bias')]
+
+    def __init__(self, key, layer):
+        assert isinstance(key, int), "DefaultNodeGene key must be an int, not {!r}".format(key)
+        BaseGene.__init__(self, key)
+        self.layer = layer
+
+    def distance(self, other, config):
+        d = abs(self.bias - other.bias)
+        return d * config.compatibility_weight_coefficient
 
 # TODO: Do an ablation study to determine whether the enabled setting is
 # important--presumably mutations that set the weight to near zero could
@@ -139,8 +153,7 @@ class DefaultNodeGene(BaseGene):
 # `product` aggregation function is rather more important than one giving
 # an output of 1 from the connection, for instance!)
 class DefaultConnectionGene(BaseGene):
-    _gene_attributes = [FloatAttribute('weight'),
-                        BoolAttribute('enabled')]
+    _gene_attributes = [FloatAttribute('weight')]
 
     def __init__(self, key, i):
         assert isinstance(key, tuple), "DefaultConnectionGene key must be a tuple, not {!r}".format(key)
@@ -149,7 +162,4 @@ class DefaultConnectionGene(BaseGene):
 
     def distance(self, other, config):
         d = abs(self.weight - other.weight)
-        if self.enabled != other.enabled:
-            d += 1.0
         return d * config.compatibility_weight_coefficient
-

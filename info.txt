@@ -1951,3 +1951,8 @@ Best fitness: -14.98284 - size: (149, 27808) - species 1 - id 2
 
 Population's average fitness: -17.08581 stdev: 2.21273
 Best fitness: -15.51335 - size: (149, 27808) - species 1 - id 2
+
+ ****** Running generation 0 ****** 
+
+Population's average fitness: -16.90885 stdev: 0.52194
+Best fitness: -16.23975 - size: (149, 27808) - species 1 - id 5
