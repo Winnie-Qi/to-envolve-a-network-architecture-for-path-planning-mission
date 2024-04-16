@@ -47,17 +47,18 @@ class BaseGene(object):
 
     def mutate(self, config, num_nodes):
         for a in self._gene_attributes:
-            if hasattr(self, a.name):
-                v = getattr(self, a.name)
-                setattr(self, a.name, a.mutate_value(v, config, num_nodes))
+            v = getattr(self, a.name)
+            setattr(self, a.name, a.mutate_value(v, config, num_nodes))
 
     def copy(self):
-        if isinstance(self, DefaultNodeGene):
+        if isinstance(self, DefaultNodeGeneFC):
             new_gene = self.__class__(self.key, self.layer)
-        else:
-            new_gene = self.__class__(self.key)
+        elif isinstance(self, DefaultNodeGeneCNN):
+            new_gene = self.__class__(self.key, self.layer)
         for a in self._gene_attributes:
             setattr(new_gene, a.name, getattr(self, a.name))
+        else: # is a connection
+            new_gene = self.__class__(self.key, self.connect_layer)
 
         return new_gene
 
@@ -65,7 +66,10 @@ class BaseGene(object):
         """ Creates a new gene randomly inheriting attributes from its parents."""
         assert self.key == gene2.key
 
-        if isinstance(self, DefaultNodeGene): # is a node
+        if isinstance(self, DefaultNodeGeneFC): # is a fc node
+            assert self.layer == gene2.layer
+            new_gene = self.__class__(self.key, self.layer)
+        elif isinstance(self, DefaultNodeGeneCNN):  # is a cnn node
             assert self.layer == gene2.layer
             new_gene = self.__class__(self.key, self.layer)
         else: # is a connection
@@ -75,15 +79,9 @@ class BaseGene(object):
         # here because `choice` is substantially slower.
         for a in self._gene_attributes:
             if random() < 0.6:  # Inherit the first gene
-                if a.name == 'kernel' and hasattr(gene2, 'kernel'):
-                    new_gene.kernel = self.kernel.copy()
-                elif a.name != 'kernel':
-                    setattr(new_gene, a.name, getattr(self, a.name))
+                setattr(new_gene, a.name, getattr(self, a.name))
             else: # Inherit the second gene
-                if a.name == 'kernel' and hasattr(gene2, 'kernel'):
-                    new_gene.kernel = gene2.kernel.copy()
-                elif a.name != 'kernel':
-                    setattr(new_gene, a.name, getattr(gene2, a.name))
+                setattr(new_gene, a.name, getattr(gene2, a.name))
 
 # @@@@@@@@@@ andrew begin
 
@@ -94,11 +92,17 @@ class BaseGene(object):
                     tmpb = getattr(gene2, a.name)
                     tmp = tmpa * lamda + tmpb * (1 - lamda)
                     setattr(new_gene, a.name, tmp)
-                elif (a.name == 'kernel') and hasattr(gene2, 'kernel'):
+                elif (a.name == 'kernel'):
                     for i in range(len(new_gene.kernel)):
                         lamda = random()
-                        tmpa = self.kernel[i]
-                        tmpb = gene2.kernel[i]
+                        try:
+                            tmpa = self.kernel[i]
+                        except:
+                            tmpa = self.kernel[i]
+                        try:
+                            tmpb = gene2.kernel[i]
+                        except:
+                            tmpb = gene2.kernel[i]
                         tmp = tmpa * lamda + tmpb * (1 - lamda)
                         new_gene.kernel[i] = tmp
 # @@@@@@@@@@ andrew end
@@ -112,7 +116,6 @@ class BaseGene(object):
 class DefaultNodeGeneCNN(BaseGene):
     _gene_attributes = [FloatAttribute('bias'),
                         BoolAttribute('depth_wise'),
-                        BoolAttribute('point_wise'),
                         BoolAttribute('single_channel'),
                         BoolAttribute('cancle_padding'),
                         ListAttribute('kernel')]
@@ -124,13 +127,12 @@ class DefaultNodeGeneCNN(BaseGene):
 
     def distance(self, other, config):
         d = abs(self.bias - other.bias)
+        d += sum([abs(x - y) for x, y in zip(self.kernel, other.kernel)])/ (10 * len(self.kernel))
         if self.depth_wise != other.depth_wise:
             d += 1.0
-        if self.point_wise != other.point_wise:
+        if self.single_channel != other.single_channel:
             d += 1.0
-        if self.single_channel != other.depth_wise:
-            d += 1.0
-        if self.cancle_padding != other.point_wise:
+        if self.cancle_padding != other.cancle_padding:
             d += 1.0
         return d * config.compatibility_weight_coefficient
 

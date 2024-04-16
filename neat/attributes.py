@@ -92,8 +92,8 @@ class BoolAttribute(BaseAttribute):
     """Class for boolean attributes such as whether a connection is enabled or not."""
     _config_items = {"default": [bool, False],
                      "mutate_rate": [float, None],
-                     "rate_to_true_add": [float, 0.8],
-                     "rate_to_false_add": [float, 0.5]}
+                     "rate_to_true_add": [float, None],
+                     "rate_to_false_add": [float, None]}
 
     def init_value(self, config, _):
         default = str(getattr(config, self.default_name)).lower()
@@ -118,12 +118,7 @@ class BoolAttribute(BaseAttribute):
 
         if mutate_rate > 0:
             r = random()
-            if r < mutate_rate:
-                # NOTE: we choose a random value here so that the mutation rate has the
-                # same exact meaning as the rates given for the string and bool
-                # attributes (the mutation operation *may* change the value but is not
-                # guaranteed to do so).
-                return random() < 0.5
+            return r < mutate_rate
 
         return value
 

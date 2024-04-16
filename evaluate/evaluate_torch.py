@@ -169,7 +169,10 @@ class Net(nn.Module):
 
                 # add conv kernel and bias to pytorch module
                 if i < self.num_cnn_layer:
-                    a = np.array(self.old_nodes[l[j]].kernel)
+                    try:
+                        a = np.array(self.old_nodes[l[j]].kernel)
+                    except:
+                        a = np.array(self.old_nodes[l[j]].kernel)
                     if i == 0:
                         layer[i].weight.data[j] = torch.FloatTensor(a.reshape(self.num_inputs, 3, 3)) # @
                     else:
@@ -177,7 +180,10 @@ class Net(nn.Module):
                     b = self.old_nodes[l[j]].bias
                     layer[i].bias.data[j] = torch.FloatTensor([b])
                 else:
-                    b = self.old_nodes[l[j]].bias
+                    try:
+                        b = self.old_nodes[l[j]].bias
+                    except:
+                        b = self.old_nodes[l[j]].bias
                     layer[i].bias.data[j] = torch.FloatTensor([b])
 
         for node_id in genome.connections:

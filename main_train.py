@@ -36,7 +36,7 @@ def eval_genomes(genomes, config, input, target, gso):
         if torch.cuda.is_available():
             net.cuda()
         batch_output_allAgent = net(input, gso)
-        genome.fitness = eval_fitness(batch_output_allAgent, target)
+        genome.fitness += eval_fitness(batch_output_allAgent, target)
 
 
 def main():

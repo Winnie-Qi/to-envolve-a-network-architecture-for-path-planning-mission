@@ -46,25 +46,30 @@ single_channel_conv = 0.5
 
 # mutate add layer rate
 mutate_add_layer = 1
-add_cnn_layer = 0
-add_fc_before_gnn = 0
+add_cnn_layer = 0.8
+add_fc_before_gnn = 0.5
 add_layer_double = 0.4
 add_layer_halve = 0.2
 
 # cnn options
 depth_wise_mutate_rate     = 0.1
-point_wise_mutate_rate     = 0.1
+depth_wise_rate_to_true_add     = 0.2
+depth_wise_rate_to_false_add     = 0.1
 single_channel_mutate_rate     = 0.1
+single_channel_rate_to_true_add     = 0.3
+single_channel_rate_to_false_add     = 0.2
 cancle_padding_mutate_rate     = 0.1
+cancle_padding_rate_to_true_add     = 0.2
+cancle_padding_rate_to_false_add     = 0.1
 
 feed_forward            = True
 initial_connection      = full
 
 # node add/remove rates
-node_add_prob           = 0.2
+node_add_prob           = 1
 node_add_one_layer      = 0.5
 node_add_num            = 10
-node_delete_prob        = 0.1
+node_delete_prob        = 1
 node_delete_num         = 5
 node_delete_one_layer   = 0.4
 parameter_cost = 0.00001

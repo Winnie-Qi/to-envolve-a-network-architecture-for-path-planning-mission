@@ -7,6 +7,7 @@ from __future__ import division
 import math
 import random
 from itertools import count
+import copy
 
 from neat.config import ConfigParameter, DefaultClassConfig
 from neat.math_util import mean
@@ -178,15 +179,15 @@ class DefaultReproduction(DefaultClassConfig):
 
                 parent1_id, parent1 = random.choice(old_members)
                 parent2_id, parent2 = random.choice(old_members)
-                while parent1_id == parent2_id:
+                while parent1_id == parent2_id and len(old_members) != 1:
                     parent2_id, parent2 = random.choice(old_members)
 
                 # Note that if the parents are not distinct, crossover will produce a
                 # genetically identical clone of the parent (but with a different ID).
                 gid = next(self.genome_indexer)
                 child = config.genome_type(gid, config.genome_config)
-                child.configure_crossover(parent1, parent2, config.genome_config)
-                child.mutate(config.genome_config)
+                child.configure_crossover(parent1, parent2)
+                child.mutate(config.genome_config, gid)
                 new_population[gid] = child
                 self.ancestors[gid] = (parent1_id, parent2_id)
 

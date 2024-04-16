@@ -34,6 +34,10 @@ class GenomeDistanceCache(object):
     def __call__(self, genome0, genome1):
         g0 = genome0.key
         g1 = genome1.key
+        if genome0.num_cnn_layer != genome1.num_cnn_layer or genome0.dense_after_cnn != genome1.dense_after_cnn or genome0.dense_after_gnn != genome1.dense_after_gnn:
+            return 100
+        if any([abs(x - y) > 5 for x, y in zip(genome0.nodes_every_layers, genome1.nodes_every_layers)]):
+            return 100
         d = self.distances.get((g0, g1))
         if d is None:
             # Distance is not already computed.
