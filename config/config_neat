@@ -46,7 +46,7 @@ single_channel_conv = 0.5
 
 # mutate add layer rate
 mutate_add_layer = 1
-add_cnn_layer = 0.8
+add_cnn_layer = 0.6
 add_fc_before_gnn = 0.5
 add_layer_double = 0.4
 add_layer_halve = 0.2
@@ -67,7 +67,7 @@ initial_connection      = full
 
 # node add/remove rates
 node_add_prob           = 1
-node_add_one_layer      = 0.5
+node_add_one_layer      = 0.6
 node_add_num            = 10
 node_delete_prob        = 1
 node_delete_num         = 5

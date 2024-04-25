@@ -1,5 +1,6 @@
 """Handles node and connection genes."""
 import warnings
+import copy
 from random import random
 from neat.attributes import FloatAttribute, BoolAttribute, ListAttribute
 
@@ -55,10 +56,10 @@ class BaseGene(object):
             new_gene = self.__class__(self.key, self.layer)
         elif isinstance(self, DefaultNodeGeneCNN):
             new_gene = self.__class__(self.key, self.layer)
-        for a in self._gene_attributes:
-            setattr(new_gene, a.name, getattr(self, a.name))
         else: # is a connection
             new_gene = self.__class__(self.key, self.connect_layer)
+        for a in self._gene_attributes:
+            setattr(new_gene, a.name, getattr(self, a.name))
 
         return new_gene
 
@@ -79,9 +80,9 @@ class BaseGene(object):
         # here because `choice` is substantially slower.
         for a in self._gene_attributes:
             if random() < 0.6:  # Inherit the first gene
-                setattr(new_gene, a.name, getattr(self, a.name))
+                setattr(new_gene, a.name, copy.deepcopy(getattr(self, a.name)))
             else: # Inherit the second gene
-                setattr(new_gene, a.name, getattr(gene2, a.name))
+                setattr(new_gene, a.name, copy.deepcopy(getattr(gene2, a.name)))
 
 # @@@@@@@@@@ andrew begin
 

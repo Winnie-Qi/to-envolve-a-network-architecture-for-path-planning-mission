@@ -18,6 +18,7 @@ class Net(nn.Module):
         self.input_size = config.genome_config.input_size
 
         self.old_connections = genome.connections
+        self.direct_conn = genome.direct_conn
         self.old_layer = genome.layer
         self.old_nodes = genome.nodes
         self.num_cnn_layer = genome.num_cnn_layer
@@ -59,12 +60,12 @@ class Net(nn.Module):
     def _make_fc_layers_after_cnn(self):
         layers = []
 
-        for i in range(self.num_cnn_layer, self.num_cnn_layer+self.dense_afer_cnn):
+        for i in range(self.num_cnn_layer, self.num_cnn_layer + self.dense_afer_cnn):
             if i == self.num_cnn_layer and self.size_output_cnn != 1:
                 layers.append(nn.Linear(in_features=self.nodes_every_layers[i - 1] * self.size_output_cnn,
                                         out_features=self.nodes_every_layers[i], bias=True))
             else:
-                layers.append(nn.Linear(in_features=self.nodes_every_layers[i-1],
+                layers.append(nn.Linear(in_features=self.nodes_every_layers[i - 1],
                                         out_features=self.nodes_every_layers[i], bias=True))
             layers.append(nn.ReLU(inplace=True))
 
@@ -80,12 +81,12 @@ class Net(nn.Module):
 
     def _make_fc_layers_after_gnn(self):
         layers = []
-        for i in range(self.num_cnn_layer+self.dense_afer_cnn+self.num_gnn_layer, len(self.nodes_every_layers)):
-            if i == len(self.nodes_every_layers)-1:
-                layers.append(nn.Linear(in_features=self.nodes_every_layers[i-1],
+        for i in range(self.num_cnn_layer + self.dense_afer_cnn + self.num_gnn_layer, len(self.nodes_every_layers)):
+            if i == len(self.nodes_every_layers) - 1:
+                layers.append(nn.Linear(in_features=self.nodes_every_layers[i - 1],
                                         out_features=self.num_outputs, bias=True))
             else:
-                layers.append(nn.Linear(in_features=self.nodes_every_layers[i-1],
+                layers.append(nn.Linear(in_features=self.nodes_every_layers[i - 1],
                                         out_features=self.nodes_every_layers[i], bias=True))
                 layers.append(nn.ReLU(inplace=True))
         return nn.Sequential(*layers)
@@ -96,15 +97,26 @@ class Net(nn.Module):
         num_batch = x.shape[0]
 
         # CNN layers + fc layer
-        extractFeatureMap = torch.zeros(num_batch, num_agent, self.nodes_every_layers[self.num_cnn_layer+self.dense_afer_cnn]) # (64,10,x)
+        direct_output = [[] for _ in range(num_agent)]
+        extractFeatureMap = torch.zeros(num_batch, num_agent, self.nodes_every_layers[self.num_cnn_layer+self.dense_afer_cnn - 1]) # (64,10,x)
         if torch.cuda.is_available():
             extractFeatureMap = extractFeatureMap.cuda()
         for id_agent in range(num_agent):
             input_currentAgent = x[:, id_agent]
             cnn_output = self.cnn_layers(input_currentAgent)
             cnn_output_flatten = cnn_output.view(cnn_output.size(0), -1)
-            fc_output_currentAgent = self.fc_layers_after_cnn(cnn_output_flatten)
-            extractFeatureMap[:, id_agent, :] = fc_output_currentAgent
+            l = 0
+            for layer in self.fc_layers_after_cnn:
+                cnn_output_flatten = layer(cnn_output_flatten)
+                if isinstance(layer, nn.Linear):
+                    l += 1
+                    nodes_list = list(self.old_layer[self.num_cnn_layer + l - 1][1])
+                    nodes_list.sort()
+                    for con in self.direct_conn:
+                        if con[0] in nodes_list:
+                            index = nodes_list.index(con[0])
+                            direct_output[id_agent].apppend([con, cnn_output_flatten[:,index] * self.direct_conn[con].weight])
+            extractFeatureMap[:, id_agent, :] = cnn_output_flatten
 
         # GNN layers
         feature_gcn = torch.zeros(num_batch, num_agent, self.nodes_every_layers[self.num_cnn_layer
@@ -133,7 +145,18 @@ class Net(nn.Module):
         # fc layers
         actions = []
         for id_agent in range(num_agent):
-            action_currentAgent = self.fc_layers_after_gnn(feature_gcn[:, id_agent])
+            l = 0
+            for layer in self.fc_layers_after_gnn:
+                action_currentAgent = layer(feature_gcn[:, id_agent])
+                if isinstance(layer, nn.Linear):
+                    l += 1
+                    nodes_list = list(self.old_layer[len(self.old_layer) - self.dense_after_gnn + l - 1][1])
+                    nodes_list.sort()
+                    if not direct_output[id_agent]:
+                        for con in direct_output[id_agent]:
+                                if con[0][1] in nodes_list:
+                                    index = nodes_list.index(con[0])
+                                    action_currentAgent[index] += con[1]
             actions.append(action_currentAgent)
 
         return actions
@@ -150,7 +173,6 @@ class Net(nn.Module):
                     layer.append(block)
                 elif isinstance(block, GCNConv):
                     layer.append(block)
-
 
         nodes = {}
 
@@ -176,15 +198,19 @@ class Net(nn.Module):
                     if i == 0:
                         layer[i].weight.data[j] = torch.FloatTensor(a.reshape(self.num_inputs, 3, 3)) # @
                     else:
-                        layer[i].weight.data[j] = torch.FloatTensor(a.reshape(self.nodes_every_layers[i-1], 3, 3))
+                        try:
+                            layer[i].weight.data[j] = torch.FloatTensor(a.reshape(self.nodes_every_layers[i-1], 3, 3))
+                        except:
+                            layer[i].weight.data[j] = torch.FloatTensor(a.reshape(self.nodes_every_layers[i - 1], 3, 3))
                     b = self.old_nodes[l[j]].bias
                     layer[i].bias.data[j] = torch.FloatTensor([b])
                 else:
                     try:
                         b = self.old_nodes[l[j]].bias
+                        layer[i].bias.data[j] = torch.FloatTensor([b])
                     except:
                         b = self.old_nodes[l[j]].bias
-                    layer[i].bias.data[j] = torch.FloatTensor([b])
+                        layer[i].bias.data[j] = torch.FloatTensor([b])
 
         for node_id in genome.connections:
 
@@ -211,8 +237,12 @@ class Net(nn.Module):
                     torch.FloatTensor([genome.connections[(in_node, out_node, node_id[2])].weight])
 
             else:
-                (layer[out_layer].weight.data[out_num])[in_num] = \
-                    torch.FloatTensor([genome.connections[(in_node, out_node)].weight])
+                try:
+                    (layer[out_layer].weight.data[out_num])[in_num] = \
+                        torch.FloatTensor([genome.connections[(in_node, out_node)].weight])
+                except:
+                    (layer[out_layer].weight.data[out_num])[in_num] = \
+                        torch.FloatTensor([genome.connections[(in_node, out_node)].weight])
 
     # neat to torch
     def set_initial_parameters_backward(self):

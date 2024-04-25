@@ -227,8 +227,6 @@ class DefaultGenome(object):
         self.size_output_cnn = convW[-1] * convW[-1]
 
         self.direct_conn = {}
-        for i in range(self.dense_after_gnn):
-            self.direct_conn[self.num_cnn_layer + self.dense_after_cnn - 1, len(self.layer) - self.dense_after_gnn + i] = set()
 
         # Fitness results.
         self.fitness = 0
@@ -279,6 +277,15 @@ class DefaultGenome(object):
 
         # Inherit connection genes
         for key, cg1 in iteritems(genome1.connections):
+            cg2 = genome2.connections.get(key)
+            if cg2 is None:
+                # Excess or disjoint gene: copy from the fittest parent.
+                self.connections[key] = cg1.copy()
+            else:
+                # Homologous gene: combine genes from both parents.
+                self.connections[key] = cg1.crossover(cg2)
+
+        for key, cg1 in iteritems(genome1.direct_conn):
             cg2 = genome2.connections.get(key)
             if cg2 is None:
                 # Excess or disjoint gene: copy from the fittest parent.
@@ -476,8 +483,7 @@ class DefaultGenome(object):
             connection = self.create_connection(config, (in_node, out_node),
                                                 [(self.nodes_every_layers[out_layer - 1] + 1), self.nodes_every_layers[out_layer]],
                                                 (in_layer, out_layer))
-            self.connections[connection.key] = connection
-            self.direct_conn[in_layer, out_layer].add((in_node, out_node)) # self.layer[i][1].add(node_key)
+            self.direct_conn[connection.key] = connection
         self.fitness -= (i + 1) * config.parameter_cost
         print("Genome No.{} adds {} connections between layer {} and {}, with fitness reward {}".format(gid, i + 1,
                                                                                                         in_layer, out_layer,
@@ -535,9 +541,10 @@ class DefaultGenome(object):
     def mutate_delete_node(self, config, gid):
         old_fitness = self.fitness
         deleted_nodes = set()
+        deleted_cnn_not_last_layer = {}
         in_one_layer = True if random() < config.node_delete_one_layer else False  # add nodes to one layer or randomly to all layers
         if in_one_layer:
-            layer_num = randint(0, self.num_cnn_layer)
+            layer_num = randint(0, len(self.layer)-self.dense_after_gnn)
             print("Delete {} nodes in layer{}".format(config.node_delete_num, layer_num))
             available_nodes = list(self.layer[layer_num][1])
             if len(available_nodes) < config.node_delete_num:
@@ -561,9 +568,10 @@ class DefaultGenome(object):
             if layer_num < self.num_cnn_layer - 1: # deleted node in cnn layers but not in the last cnn layer
                 # The number of layer of next-layer convolution kernel needs to be reduced
                 del_node_index = sorted(list(self.layer[layer_num][1])).index(del_key)
-                for node_key in self.layer[layer_num + 1][1]:
-                    self.nodes[node_key].kernel[config.kernel_size * del_node_index: config.kernel_size * (del_node_index + 1)] = []
-                    self.fitness += config.kernel_size * config.parameter_cost
+                if layer_num not in deleted_cnn_not_last_layer:
+                    deleted_cnn_not_last_layer[layer_num] = [del_node_index]
+                else:
+                    deleted_cnn_not_last_layer[layer_num].append(del_node_index)
                 self.fitness += (len(self.nodes[del_key].kernel) + 1) * config.parameter_cost
 
             else: # deleted node in fc layers or the last cnn layer
@@ -581,6 +589,18 @@ class DefaultGenome(object):
 
             if not in_one_layer:
                 print("A node deleted in layer{}".format(layer_num))
+
+        # Reduce the number of layer in the next cnn kernel
+        for layer_num in deleted_cnn_not_last_layer:
+            ranges = [(config.kernel_size * i, config.kernel_size * (i + 1)) for i in deleted_cnn_not_last_layer[layer_num]]
+            indices_to_remove = []
+            for start, end in ranges:
+                indices_to_remove.extend(range(start, end))
+            for node_key in self.layer[layer_num + 1][1]:
+                self.nodes[node_key].kernel = [elem for idx, elem in enumerate(
+                    self.nodes[node_key].kernel) if idx not in indices_to_remove]
+                self.fitness += config.kernel_size * config.parameter_cost
+
 
         for del_key, layer_num in deleted_nodes:
             self.layer[layer_num][1].remove(del_key)
@@ -602,7 +622,6 @@ class DefaultGenome(object):
 
     def mutate_add_layer(self, config, gid):
         old_fitness = self.fitness
-        self.direct_conn = {(key[0], key[1] + 1): value for key, value in self.direct_conn.items()}
         a = random()
         if a < config.add_cnn_layer: # add cnn layer
             a = random()
@@ -627,9 +646,6 @@ class DefaultGenome(object):
                     except:
                         self.nodes[node_key].layer += 1
             self.layer.insert(layer_num, ['cnn', set()])
-            for i in range(self.dense_after_gnn): # direct_conn has a new possibility
-                self.direct_conn[
-                    self.num_cnn_layer + self.dense_after_cnn - 1, len(self.layer) - self.dense_after_gnn + i] = set()
             # recompute num_cnn_output
             FilterTaps = int(pow(config.kernel_size, 0.5))
             W_tmp = int((self.size_width_every_cnn[-1] - FilterTaps + 2 * self.padding_mask[-1])) + 1
@@ -670,8 +686,7 @@ class DefaultGenome(object):
                 self.connections[connection.key] = connection
             self.fitness -= len(connections) * config.parameter_cost
 
-            print("Genome No.{} adds a fc layer after cnn layer with {} nodes, with fitness reward {}".format(gid,
-                                                                                            node_add_num,
+            print("Genome No.{} adds a cnn layer with {} nodes, with fitness reward {}".format(gid, node_add_num,
                                                                                             self.fitness - old_fitness))
 
         else: # add fc layer
@@ -680,13 +695,10 @@ class DefaultGenome(object):
                 layer_num = self.num_cnn_layer + self.dense_after_cnn
                 self.dense_after_cnn += 1
                 a_log = 'before gnn layer'
-                for i in range(self.num_gnn_layer):
-                    self.direct_conn[self.num_cnn_layer + self.dense_after_cnn - 1, self.num_cnn_layer + self.dense_after_cnn + self.num_gnn_layer + i - 1] = set()
             else: # add a fc layer before the output layer
                 layer_num = len(self.nodes_every_layers) - 1
                 self.dense_after_gnn += 1
                 a_log = 'after gnn layer'
-                self.direct_conn[self.num_cnn_layer + self.dense_after_cnn - 1, layer_num] = set()
 
             a = random()
             if a < config.add_layer_halve:
