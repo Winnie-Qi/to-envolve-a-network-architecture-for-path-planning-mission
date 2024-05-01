@@ -49,7 +49,7 @@ class BaseGene(object):
     def mutate(self, config, num_nodes):
         for a in self._gene_attributes:
             v = getattr(self, a.name)
-            setattr(self, a.name, a.mutate_value(v, config, num_nodes))
+            setattr(self, a.name, copy.deepcopy(a.mutate_value(v, config, num_nodes)))
 
     def copy(self):
         if isinstance(self, DefaultNodeGeneFC):
@@ -59,7 +59,7 @@ class BaseGene(object):
         else: # is a connection
             new_gene = self.__class__(self.key, self.connect_layer)
         for a in self._gene_attributes:
-            setattr(new_gene, a.name, getattr(self, a.name))
+            setattr(new_gene, a.name, copy.deepcopy(getattr(self, a.name)))
 
         return new_gene
 
@@ -79,10 +79,16 @@ class BaseGene(object):
         # Note: we use "a if random() > 0.5 else b" instead of choice((a, b))
         # here because `choice` is substantially slower.
         for a in self._gene_attributes:
-            if random() < 0.6:  # Inherit the first gene
-                setattr(new_gene, a.name, copy.deepcopy(getattr(self, a.name)))
-            else: # Inherit the second gene
-                setattr(new_gene, a.name, copy.deepcopy(getattr(gene2, a.name)))
+            if a.name != 'kernel':
+                if random() < 0.6:  # Inherit the first gene
+                    setattr(new_gene, a.name, copy.deepcopy(getattr(self, a.name)))
+                else: # Inherit the second gene
+                    setattr(new_gene, a.name, copy.deepcopy(getattr(gene2, a.name)))
+            else:
+                if random() < 0.4 and len(getattr(self, a.name)) == len(getattr(gene2, a.name)):  # Inherit the first gene
+                    setattr(new_gene, a.name, copy.deepcopy(getattr(gene2, a.name)))
+                else: # Inherit the second gene
+                    setattr(new_gene, a.name, copy.deepcopy(getattr(self, a.name)))
 
 # @@@@@@@@@@ andrew begin
 
@@ -99,11 +105,11 @@ class BaseGene(object):
                         try:
                             tmpa = self.kernel[i]
                         except:
-                            tmpa = self.kernel[i]
+                            tmpa = sum(self.kernel) / len(self.kernel)
                         try:
                             tmpb = gene2.kernel[i]
                         except:
-                            tmpb = gene2.kernel[i]
+                            tmpb = sum(gene2.kernel) / len(gene2.kernel)
                         tmp = tmpa * lamda + tmpb * (1 - lamda)
                         new_gene.kernel[i] = tmp
 # @@@@@@@@@@ andrew end

@@ -36,7 +36,11 @@ class GenomeDistanceCache(object):
         g1 = genome1.key
         if genome0.num_cnn_layer != genome1.num_cnn_layer or genome0.dense_after_cnn != genome1.dense_after_cnn or genome0.dense_after_gnn != genome1.dense_after_gnn:
             return 100
-        if any([abs(x - y) > 5 for x, y in zip(genome0.nodes_every_layers, genome1.nodes_every_layers)]):
+        if any([abs(x - y) > 10 for x, y in zip(genome0.nodes_every_layers, genome1.nodes_every_layers)]):
+            return 100
+        if abs(sum(genome0.nodes_every_layers) - sum(genome1.nodes_every_layers)) > 20:
+            return 100
+        if abs(len(genome0.direct_conn) - len(genome1.direct_conn)) > 15:
             return 100
         d = self.distances.get((g0, g1))
         if d is None:

@@ -12,7 +12,8 @@ import evaluate.evaluate_torch as evaluate_torch
 from config.config_train import config_train
 from dataloader.decentral_dataloader import DecentralPlannerDataLoader
 
-def eval_fitness(output, target):
+def eval_fitness(output, target, genome_id):
+    info = open("info.txt", "a")
     fitness = 0
     total_matched_rows = 0
     target = target.permute(1, 0, 2)
@@ -23,8 +24,11 @@ def eval_fitness(output, target):
         one_indices = torch.nonzero(target[agent], as_tuple=False)
         matched_indices = torch.eq(max_indices, one_indices[:, 1])
         total_matched_rows += torch.sum(matched_indices).item()
-    print(f"-------Accuracy is {total_matched_rows}/640----------")
-    return fitness.item()
+    print(f"-------Accuracy of Genome {genome_id} is {total_matched_rows}/640----------")
+    info.write(f"-------Accuracy of Genome {genome_id} is {total_matched_rows}/640----------\n")
+    info.close()
+    return fitness.item()*10+200
+    # return total_matched_rows
 
 def eval_genomes(genomes, config, input, target, gso):
     if torch.cuda.is_available():
@@ -36,7 +40,7 @@ def eval_genomes(genomes, config, input, target, gso):
         if torch.cuda.is_available():
             net.cuda()
         batch_output_allAgent = net(input, gso)
-        genome.fitness += eval_fitness(batch_output_allAgent, target)
+        genome.fitness += eval_fitness(batch_output_allAgent, target, genome_id)
 
 
 def main():

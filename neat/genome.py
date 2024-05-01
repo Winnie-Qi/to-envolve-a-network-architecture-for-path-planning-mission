@@ -215,6 +215,10 @@ class DefaultGenome(object):
         self.num_gnn_layer = config.num_gnn_layer
         self.dense_after_gnn = config.dense_after_gnn
 
+        self.cnn_nodes_conv_layer = []
+        for i in range(self.num_cnn_layer):
+            self.cnn_nodes_conv_layer.append([-1] * self.nodes_every_layers[i])
+
         # Compute output size of cnn
         convW = [config.input_size]
         FilterTaps = int(pow(config.kernel_size,0.5))
@@ -273,7 +277,7 @@ class DefaultGenome(object):
         """ Configure a new genome by crossover from two parent genomes. """
 
         if genome1.fitness < genome2.fitness:  # make sure parent1.fitness > parent2.fitness
-            genome1, genome2 = genome2, genome1
+            genome1, genome2 = copy.deepcopy(genome2), copy.deepcopy(genome1)
 
         # Inherit connection genes
         for key, cg1 in iteritems(genome1.connections):
@@ -286,13 +290,13 @@ class DefaultGenome(object):
                 self.connections[key] = cg1.crossover(cg2)
 
         for key, cg1 in iteritems(genome1.direct_conn):
-            cg2 = genome2.connections.get(key)
+            cg2 = genome2.direct_conn.get(key)
             if cg2 is None:
                 # Excess or disjoint gene: copy from the fittest parent.
-                self.connections[key] = cg1.copy()
+                self.direct_conn[key] = cg1.copy()
             else:
                 # Homologous gene: combine genes from both parents.
-                self.connections[key] = cg1.crossover(cg2)
+                self.direct_conn[key] = cg1.crossover(cg2)
 
         # Inherit node genes
         for key, ng1 in iteritems(genome1.nodes):
@@ -307,7 +311,7 @@ class DefaultGenome(object):
 
         # inherit other property from genome1
         self.dense_after_cnn = copy.deepcopy(genome1.dense_after_cnn)
-        self.dense_after_gnn = copy.deepcopy(genome1.dense_after_cnn)
+        self.dense_after_gnn = copy.deepcopy(genome1.dense_after_gnn)
         self.num_cnn_layer = copy.deepcopy(genome1.num_cnn_layer)
         self.layer = copy.deepcopy(genome1.layer)
         self.maxpooling_mask = copy.deepcopy(genome1.maxpooling_mask)
@@ -316,6 +320,7 @@ class DefaultGenome(object):
         self.size_output_cnn = copy.deepcopy(genome1.size_output_cnn)
         self.size_width_every_cnn = copy.deepcopy(genome1.size_width_every_cnn)
         self.direct_conn = copy.deepcopy(genome1.direct_conn)
+        self.cnn_nodes_conv_layer = copy.deepcopy(self.cnn_nodes_conv_layer)
 
     def mutate(self, config, gid):
         """ Mutates this genome. """
@@ -336,38 +341,46 @@ class DefaultGenome(object):
                 self.mutate_delete_connection(config)
         else:
             # pass
-            if random() < config.node_add_prob:
-                self.mutate_add_node(config, gid)
+            # if random() < config.node_add_prob:
+            #     self.mutate_add_node(config, gid)
+            #
+            # if random() < config.node_delete_prob:
+            #     self.mutate_delete_node(config, gid)
 
-            if random() < config.node_delete_prob:
-                self.mutate_delete_node(config, gid)
+            # if random() < config.mutate_add_layer:
+            #     self.mutate_add_layer(config, gid)
+            #
+            # if random() < config.add_direct_conn:
+            #     self.mutate_add_direct_conn(config, gid)
 
-            if random() < config.mutate_add_layer:
-                self.mutate_add_layer(config, gid)
-
-            if random() < config.add_direct_conn:
-                self.mutate_add_direct_conn(config, gid)
-
-            # if random() < config.conn_add_prob:
-            #     self.mutate_add_connection(config)
+            if random() < config.conn_add_prob:
+                self.mutate_conv_single_channel(config)
             #
             # if random() < config.conn_delete_prob:
             #     self.mutate_delete_connection(config)
 
-        # Mutate connection genes (weight, enable).
+        # Mutate connection genes (weight).
         for cg in self.connections.values():
-            cg.mutate(config, self.nodes_every_layers[cg.connect_layer[0]:cg.connect_layer[1]+1])
+            if len(cg.key) == 3:
+                cg.mutate(config, [self.nodes_every_layers[cg.connect_layer[0]] * self.size_output_cnn, self.nodes_every_layers[cg.connect_layer[1]]])
+            else:
+                cg.mutate(config, self.nodes_every_layers[cg.connect_layer[0]:cg.connect_layer[1]+1])
 
-        # Mutate node genes (bias, response, kernels).
+        # for dg in self.direct_conn.values():
+        #     dg.mutate(config, [self.nodes_every_layers[dg.connect_layer[0]],self.nodes_every_layers[dg.connect_layer[1]]])
+
+        # Mutate node genes (bias, kernels).
         for ng in self.nodes.values():
             ng.mutate(config, [self.nodes_every_layers[ng.layer-1], self.nodes_every_layers[ng.layer]])
 
     def mutate_add_node(self, config, gid):
+        info = open("info.txt", "a")
+        if self.num_cnn_layer == 3:
+            pass
         old_fitness = self.fitness
         in_one_layer = True if random() < config.node_add_one_layer else False # add nodes to one layer or randomly to all layers
         if in_one_layer:
             layer_num = randint(0, len(self.nodes_every_layers) - 2)
-            print("Add {} nodes in layer{}".format(config.node_add_num, layer_num))
 
         for i in range(config.node_add_num):
             # Choose the layer to add node (not the last layer)
@@ -395,7 +408,7 @@ class DefaultGenome(object):
             self.nodes[new_node_id] = ng
 
             # if the added node in fc/gnn layer ---- add connections
-            if layer_num > self.num_cnn_layer-1:
+            if layer_num > self.num_cnn_layer - 1:
                 connections = []
                 #  Add connections to the next layer
                 if layer_num == len(self.nodes_every_layers)-2: # Add connection to output, if the added node in last layer
@@ -428,7 +441,7 @@ class DefaultGenome(object):
                 self.fitness -= len(connections) * config.parameter_cost
 
             # if the added node in cnn layer but not the last cnn layer ---- add one layer to each kernel of next cnn layer
-            elif layer_num < config.num_cnn_layer-1:
+            elif layer_num < self.num_cnn_layer - 1:
                 for node_key in self.layer[layer_num+1][1]:
                     kernel_attribute = next((a for a in self.nodes[node_key]._gene_attributes if a.name == 'kernel'),None)
                     new_kernel_layer = kernel_attribute.add_layer(config, self.nodes_every_layers[layer_num:layer_num+2])
@@ -448,25 +461,19 @@ class DefaultGenome(object):
                                                          self.nodes_every_layers[layer_num + 1]], (layer_num, layer_num + 1))
                     self.connections[connection.key] = connection
 
-            if not in_one_layer:
-                print("A node added in layer{}".format(layer_num))
-        print("Genome No.{} after nodes adding is: {}, with fitness reward {}".format(gid, self.nodes_every_layers,
-                                                                                    self.fitness - old_fitness))
-
-    def add_connection(self, config, input_key, output_key, weight, enabled):
-
-        # TODO: Add further validation of this connection addition?
-        assert isinstance(input_key, int)
-        assert isinstance(output_key, int)
-        assert output_key >= 0
-        assert isinstance(enabled, bool)
-
-        key = (input_key, output_key)
-        connection = config.connection_gene_type(key)
-        connection.init_attributes(config)
-        connection.weight = weight
-        connection.enabled = enabled
-        self.connections[key] = connection
+        if in_one_layer:
+            print("Genome No.{} add {} nodes in layer{}, with fitness reward {}".format(gid, config.node_add_num,
+                                                                                        layer_num,
+                                                                                        self.fitness - old_fitness))
+            info.write("Genome No.{} add {} nodes in layer{}, with fitness reward {}\n".format(gid, config.node_add_num,
+                                                                                        layer_num,
+                                                                                        self.fitness - old_fitness))
+        else:
+            print("Genome No.{} add {} nodes randomly, with fitness reward {}".format(gid, config.node_add_num,
+                                                                                        self.fitness - old_fitness))
+            info.write("Genome No.{} add {} nodes randomly, with fitness reward {}\n".format(gid, config.node_add_num,
+                                                                                        self.fitness - old_fitness))
+        info.close()
 
     def mutate_add_direct_conn(self, config, gid):
         old_fitness = self.fitness
@@ -478,7 +485,7 @@ class DefaultGenome(object):
         for i in range(config.direct_conn_num):
             in_node = choice(available_in_nodes)
             out_node = choice(available_out_nodes)
-            if (in_node, out_node) in self.connections: # do not duplicate connections
+            if (in_node, out_node) in self.direct_conn: # do not duplicate connections
                 continue
             connection = self.create_connection(config, (in_node, out_node),
                                                 [(self.nodes_every_layers[out_layer - 1] + 1), self.nodes_every_layers[out_layer]],
@@ -489,63 +496,14 @@ class DefaultGenome(object):
                                                                                                         in_layer, out_layer,
                                                                                                         self.fitness - old_fitness))
 
-    def mutate_depthwise_conv(self, config):
-        available_in_nodes = list(self.layer[0][1])
-        for i in range(config.depthwise_conv_num):
-            choice(available_in_nodes)
-
-    def mutate_add_connection(self, config):
-        num = 0
-        for i in range(config.conn_add_num):
-
-            # Choose the outnode layer
-            layer_num = randint(0, config.num_layer - 1)
-
-            # If choose out_node form the first layer, the input_node should choose from input of the network.
-            if layer_num == 0:
-                out_node = choice(list(self.layer[layer_num][1]))
-                in_node = choice(config.input_keys)
-            else:
-                out_node = choice(list(self.layer[layer_num][1]))
-                #in_node = choice(list(self.layer[layer_num - 1][1]))
-                # Changed to support dense connection. by Andrew 2019.3.18
-                left = 1
-                right = layer_num if layer_num < config.num_dense_layer else config.num_dense_layer
-                in_node_layer_distance = randint(left, right)
-                in_node = choice(list(self.layer[layer_num - in_node_layer_distance][1]))
-
-            # Don't duplicate connections.
-            key = (in_node, out_node)
-            if key in self.connections:
-                # TODO: Should this be using mutation to/from rates? Hairy to configure...
-                if config.check_structural_mutation_surer():
-                    self.connections[key].enabled = True
-                continue
-
-            # Don't allow connections between two output nodes
-            if in_node in config.output_keys and out_node in config.output_keys:
-                continue
-
-            # No need to check for connections between input nodes:
-            # they cannot be the output end of a connection (see above).
-
-            # For feed-forward networks, avoid creating cycles.
-            if config.feed_forward and creates_cycle(list(iterkeys(self.connections)), key):
-                continue
-
-            cg = self.create_connection(config, in_node, out_node)
-            self.connections[cg.key] = cg
-            num += 1
-        print("{0} connections added!".format(num))
-
     def mutate_delete_node(self, config, gid):
+        info = open("info.txt", "a")
         old_fitness = self.fitness
         deleted_nodes = set()
         deleted_cnn_not_last_layer = {}
         in_one_layer = True if random() < config.node_delete_one_layer else False  # add nodes to one layer or randomly to all layers
         if in_one_layer:
-            layer_num = randint(0, len(self.layer)-self.dense_after_gnn)
-            print("Delete {} nodes in layer{}".format(config.node_delete_num, layer_num))
+            layer_num = randint(0, len(self.layer) - self.dense_after_gnn - 1)
             available_nodes = list(self.layer[layer_num][1])
             if len(available_nodes) < config.node_delete_num:
                 in_one_layer = False
@@ -575,20 +533,25 @@ class DefaultGenome(object):
                 self.fitness += (len(self.nodes[del_key].kernel) + 1) * config.parameter_cost
 
             else: # deleted node in fc layers or the last cnn layer
+                if self.direct_conn:
+                    pass
                 if layer_num < self.num_cnn_layer: # the last cnn layer
                     self.fitness += (len(self.nodes[del_key].kernel) + 1) * config.parameter_cost
                 connections_to_delete = set()
                 for connection in iteritems(self.connections):
                     if del_key in connection[0][:2]:
                         connections_to_delete.add(connection[0])
+                for connection in iteritems(self.direct_conn):
+                    if del_key in connection[0][:2]:
+                        connections_to_delete.add(connection[0])
 
                 for key in connections_to_delete:
-                    del self.connections[key]
+                    try:
+                        del self.connections[key]
+                    except:
+                        del self.direct_conn[key]
 
                 self.fitness += (len(connections_to_delete) + 1) * config.parameter_cost
-
-            if not in_one_layer:
-                print("A node deleted in layer{}".format(layer_num))
 
         # Reduce the number of layer in the next cnn kernel
         for layer_num in deleted_cnn_not_last_layer:
@@ -607,23 +570,22 @@ class DefaultGenome(object):
             self.nodes_every_layers[layer_num] -= 1
             del self.nodes[del_key]
 
-        print("Genome No.{} after nodes deletion is: {}, with fitness reward {}".format(gid, self.nodes_every_layers,
-                                                                                    self.fitness - old_fitness))
-
-    def mutate_delete_connection(self, config):
-        num = 0
-        for i in range(config.conn_delete_num):
-            if self.connections:
-                key = choice(list(self.connections.keys()))
-                #TODO: add judgement to avoid del the last connection between two layers
-                del self.connections[key]
-                num += 1
-        print("{0} connections deleted!".format(num))
+        if in_one_layer:
+            print("Genome No.{} delete {} nodes in layer{}, with fitness reward {}".format(gid, i + 1, layer_num,
+                                                                                        self.fitness - old_fitness))
+            info.write("Genome No.{} delete {} nodes in layer{}, with fitness reward {}\n".format(gid, i + 1, layer_num,
+                                                                                        self.fitness - old_fitness))
+        else:
+            print("Genome No.{} delete {} nodes randomly, with fitness reward {}".format(gid, i + 1,
+                                                                                           self.fitness - old_fitness))
+            info.write("Genome No.{} delete {} nodes randomly, with fitness reward {}\n".format(gid, i + 1,
+                                                                                           self.fitness - old_fitness))
+        info.close()
 
     def mutate_add_layer(self, config, gid):
         old_fitness = self.fitness
         a = random()
-        if a < config.add_cnn_layer: # add cnn layer
+        if a < config.add_cnn_layer and self.num_cnn_layer < 5: # add cnn layer
             a = random()
             if a < config.add_layer_halve:
                 node_add_num = int(self.nodes_every_layers[self.num_cnn_layer-1] / 2) # number of added nodes halves the last cnn layer
@@ -652,7 +614,7 @@ class DefaultGenome(object):
             if self.maxpooling_mask[-1]:
                 W_tmp = int((W_tmp - 2) / 2) + 1
             self.size_width_every_cnn.append(W_tmp)
-            self.size_output_cnn = self.size_width_every_cnn[-1] * 2
+            self.size_output_cnn = self.size_width_every_cnn[-1] * self.size_width_every_cnn[-1]
 
             # Delete connections between last cnn layer and the next fc layer
             connections_to_delete = set()
@@ -756,6 +718,20 @@ class DefaultGenome(object):
             print("Genome No.{} adds a fc layer {} with {} nodes, with fitness reward {}".format(self.key, a_log,
                                                                                                node_add_num,
                                                                                                self.fitness - old_fitness))
+
+    def mutate_conv_single_channel(self, config):
+        # If it's the first time, only mutate nodes in the first cnn layer
+        if not any(item != -1 for sublist in self.cnn_nodes_conv_layer for item in sublist):
+            for j in self.layer[0][1]:
+
+        for i in range(self.num_cnn_layer):
+            for j in self.layer[i][1]:
+                pass
+
+    def mutate_depthwise_conv(self, config):
+        available_in_nodes = list(self.layer[0][1])
+        for i in range(config.depthwise_conv_num):
+            choice(available_in_nodes)
 
     def distance(self, other, config):
         """

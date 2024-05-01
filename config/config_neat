@@ -2,36 +2,27 @@
 
 [NEAT]
 fitness_criterion     = max
-fitness_threshold     = -2
-pop_size              = 6
+fitness_threshold     = 200
+pop_size              = 30
 reset_on_extinction   = False
 
 [DefaultGenome]
-# node activation options
-activation_default      = relu
-activation_mutate_rate  = 0.0
-activation_options      = relu
-
-# node aggregation options
-aggregation_default     = sum
-aggregation_mutate_rate = 0.0
-aggregation_options     = sum
 
 # node bias options
 bias_init_mean          = 0.0
 bias_init_stdev         = 0.02
 bias_max_value          = 0.5
 bias_min_value          = -0.5
-bias_mutate_power       = 0.005
-bias_mutate_rate        = 0.05
-bias_replace_rate       = 0.01
+bias_mutate_power       = 0.02
+bias_mutate_rate        = 0.9
+bias_replace_rate       = 0
 
 # genome compatibility options
 compatibility_disjoint_coefficient = 1.0
 compatibility_weight_coefficient   = 0.5
 
 # connection add/remove rates
-add_direct_conn         = 1
+add_direct_conn         = 0.2
 direct_conn_num         = 5
 conn_add_prob           = 1
 conn_add_num            = 10
@@ -45,7 +36,7 @@ pointwise_after_depthwise = 0.5
 single_channel_conv = 0.5
 
 # mutate add layer rate
-mutate_add_layer = 1
+mutate_add_layer = 0.03
 add_cnn_layer = 0.6
 add_fc_before_gnn = 0.5
 add_layer_double = 0.4
@@ -55,7 +46,9 @@ add_layer_halve = 0.2
 depth_wise_mutate_rate     = 0.1
 depth_wise_rate_to_true_add     = 0.2
 depth_wise_rate_to_false_add     = 0.1
-single_channel_mutate_rate     = 0.1
+single_channel_mutate_rate     = 1
+single_channel_mutate_ratio    = 0.2
+each_channel_mutate_prob       = 0.6,0.8,1
 single_channel_rate_to_true_add     = 0.3
 single_channel_rate_to_false_add     = 0.2
 cancle_padding_mutate_rate     = 0.1
@@ -66,54 +59,45 @@ feed_forward            = True
 initial_connection      = full
 
 # node add/remove rates
-node_add_prob           = 1
-node_add_one_layer      = 0.6
-node_add_num            = 10
-node_delete_prob        = 1
-node_delete_num         = 5
-node_delete_one_layer   = 0.4
-parameter_cost = 0.00001
+node_add_prob           = 0.1
+node_add_one_layer      = 0.5
+node_add_num            = 6
+node_delete_prob        = 0.07
+node_delete_num         = 3
+node_delete_one_layer   = 0.3
+parameter_cost = 0.00005
 
 # network parameters
 num_inputs              = 3
 num_outputs             = 5
 full_connect_input      = True
 
-# node response options
-response_init_mean      = 1.0
-response_init_stdev     = 0.0
-response_max_value      = 5
-response_min_value      = -5.0
-response_mutate_power   = 0.0
-response_mutate_rate    = 0.0
-response_replace_rate   = 0.0
-
 # connection weight options
 weight_init_mean        = 0.0
 weight_init_stdev       = 0.05
 weight_max_value        = 0.5
 weight_min_value        = -0.5
-weight_mutate_power     = 0.005
-weight_mutate_rate      = 0.05
-weight_replace_rate     = 0.01
+weight_mutate_power     = 0.02
+weight_mutate_rate      = 0.9
+weight_replace_rate     = 0
 
 # cnn kernel options
 kernel_init_mean        = 0.0
 kernel_init_stdev       = 0.3
 kernel_max_value        = 1.0
 kernel_min_value        = -1.0
-kernel_mutate_power     = 0.005
-kernel_mutate_rate      = 0.05
-kernel_replace_rate     = 0.01
+kernel_mutate_power     = 0.02
+kernel_mutate_rate      = 0.9
+kernel_replace_rate     = 0
 kernel_size             = 9
 
 # layer information
 num_cnn_layer           = 2
 dense_after_cnn         = 1
-num_gnn_layer           = 2
+num_gnn_layer           = 1
 dense_after_gnn         = 1
 input_size              = 11
-nodes_every_layer       = 16,32,32,32,32,5
+nodes_every_layer       = 4,8,8,8,5
 
 [DefaultSpeciesSet]
 compatibility_threshold = 5
@@ -125,4 +109,4 @@ species_elitism      = 2
 
 [DefaultReproduction]
 elitism            = 2
-survival_threshold = 0.2
+survival_threshold = 0.1

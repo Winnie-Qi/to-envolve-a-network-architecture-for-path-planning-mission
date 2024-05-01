@@ -82,8 +82,9 @@ class Population(object):
 
         k = 0
         while n is None or k < n:
-
+            print('______Loading Dataset______')
             for batch_idx, (batch_input, batch_target, _, batch_GSO, map) in enumerate(self.dataloader.train_loader):
+                # while True:
                 k += 1
 
                 self.reporters.start_generation(self.generation)

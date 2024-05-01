@@ -17,10 +17,10 @@ class Net(nn.Module):
         self.num_outputs = config.genome_config.num_outputs
         self.input_size = config.genome_config.input_size
 
-        self.old_connections = genome.connections
+        self.connections = genome.connections
         self.direct_conn = genome.direct_conn
-        self.old_layer = genome.layer
-        self.old_nodes = genome.nodes
+        self.layer = genome.layer
+        self.nodes = genome.nodes
         self.num_cnn_layer = genome.num_cnn_layer
         self.dense_afer_cnn = genome.dense_after_cnn
         self.num_gnn_layer = genome.num_gnn_layer
@@ -35,7 +35,7 @@ class Net(nn.Module):
         self.gnn_layer = self._make_gnn_layers()
         self.fc_layers_after_gnn = self._make_fc_layers_after_gnn()
 
-        self.set_parameters(genome)
+        self.set_parameters()
 
     @property
     def _make_cnn_layers(self):
@@ -103,19 +103,25 @@ class Net(nn.Module):
             extractFeatureMap = extractFeatureMap.cuda()
         for id_agent in range(num_agent):
             input_currentAgent = x[:, id_agent]
-            cnn_output = self.cnn_layers(input_currentAgent)
+            try:
+                cnn_output = self.cnn_layers(input_currentAgent)
+            except:
+                cnn_output = self.cnn_layers(input_currentAgent)
             cnn_output_flatten = cnn_output.view(cnn_output.size(0), -1)
             l = 0
             for layer in self.fc_layers_after_cnn:
-                cnn_output_flatten = layer(cnn_output_flatten)
+                try:
+                    cnn_output_flatten = layer(cnn_output_flatten)
+                except:
+                    cnn_output_flatten = layer(cnn_output_flatten)
                 if isinstance(layer, nn.Linear):
                     l += 1
-                    nodes_list = list(self.old_layer[self.num_cnn_layer + l - 1][1])
+                    nodes_list = list(self.layer[self.num_cnn_layer + l - 1][1])
                     nodes_list.sort()
                     for con in self.direct_conn:
                         if con[0] in nodes_list:
                             index = nodes_list.index(con[0])
-                            direct_output[id_agent].apppend([con, cnn_output_flatten[:,index] * self.direct_conn[con].weight])
+                            direct_output[id_agent].append((con, cnn_output_flatten[:,index] * self.direct_conn[con].weight))
             extractFeatureMap[:, id_agent, :] = cnn_output_flatten
 
         # GNN layers
@@ -146,22 +152,26 @@ class Net(nn.Module):
         actions = []
         for id_agent in range(num_agent):
             l = 0
+            action_currentAgent = feature_gcn[:, id_agent]
             for layer in self.fc_layers_after_gnn:
-                action_currentAgent = layer(feature_gcn[:, id_agent])
+                action_currentAgent = layer(action_currentAgent)
                 if isinstance(layer, nn.Linear):
                     l += 1
-                    nodes_list = list(self.old_layer[len(self.old_layer) - self.dense_after_gnn + l - 1][1])
+                    try:
+                        nodes_list = list(self.layer[len(self.layer) - self.dense_after_gnn + l - 1][1])
+                    except:
+                        nodes_list = list(self.layer[len(self.layer) - self.dense_after_gnn + l - 1][1])
                     nodes_list.sort()
-                    if not direct_output[id_agent]:
+                    if direct_output[id_agent]:
                         for con in direct_output[id_agent]:
-                                if con[0][1] in nodes_list:
-                                    index = nodes_list.index(con[0])
-                                    action_currentAgent[index] += con[1]
+                            if con[0][1] in nodes_list:
+                                index = nodes_list.index(con[0][1])
+                                action_currentAgent[:, index] += con[1]
             actions.append(action_currentAgent)
 
         return actions
 
-    def set_parameters(self, genome: neat.genome.DefaultGenome):
+    def set_parameters(self):
 
         # layers that contain trainable parameters
         layer = list()
@@ -183,7 +193,7 @@ class Net(nn.Module):
 
         # add every layers to nodes dict
         for i in range(len(self.nodes_every_layers)):
-            l = list(genome.layer[i][1])
+            l = list(self.layer[i][1])
             l.sort()
             for j in range(len(l)):
                 position = [i, j]
@@ -192,9 +202,9 @@ class Net(nn.Module):
                 # add conv kernel and bias to pytorch module
                 if i < self.num_cnn_layer:
                     try:
-                        a = np.array(self.old_nodes[l[j]].kernel)
+                        a = np.array(self.nodes[l[j]].kernel)
                     except:
-                        a = np.array(self.old_nodes[l[j]].kernel)
+                        a = np.array(self.nodes[l[j]].kernel)
                     if i == 0:
                         layer[i].weight.data[j] = torch.FloatTensor(a.reshape(self.num_inputs, 3, 3)) # @
                     else:
@@ -202,17 +212,17 @@ class Net(nn.Module):
                             layer[i].weight.data[j] = torch.FloatTensor(a.reshape(self.nodes_every_layers[i-1], 3, 3))
                         except:
                             layer[i].weight.data[j] = torch.FloatTensor(a.reshape(self.nodes_every_layers[i - 1], 3, 3))
-                    b = self.old_nodes[l[j]].bias
+                    b = self.nodes[l[j]].bias
                     layer[i].bias.data[j] = torch.FloatTensor([b])
                 else:
                     try:
-                        b = self.old_nodes[l[j]].bias
+                        b = self.nodes[l[j]].bias
                         layer[i].bias.data[j] = torch.FloatTensor([b])
                     except:
-                        b = self.old_nodes[l[j]].bias
+                        b = self.nodes[l[j]].bias
                         layer[i].bias.data[j] = torch.FloatTensor([b])
 
-        for node_id in genome.connections:
+        for node_id in self.connections:
 
             in_node = node_id[0]
             out_node = node_id[1]
@@ -230,19 +240,19 @@ class Net(nn.Module):
 
             if hasattr(layer[out_layer], 'lin'): # connection within gcn layers
                 (layer[out_layer].lin.weight.data[out_num])[in_num] = \
-                    torch.FloatTensor([genome.connections[(in_node, out_node)].weight])
+                    torch.FloatTensor([self.connections[(in_node, out_node)].weight])
 
             elif len(node_id) == 3: # connection with the last cnn layer and fc layer
                 (layer[out_layer].weight.data[out_num])[in_num] = \
-                    torch.FloatTensor([genome.connections[(in_node, out_node, node_id[2])].weight])
+                    torch.FloatTensor([self.connections[(in_node, out_node, node_id[2])].weight])
 
             else:
                 try:
                     (layer[out_layer].weight.data[out_num])[in_num] = \
-                        torch.FloatTensor([genome.connections[(in_node, out_node)].weight])
+                        torch.FloatTensor([self.connections[(in_node, out_node)].weight])
                 except:
                     (layer[out_layer].weight.data[out_num])[in_num] = \
-                        torch.FloatTensor([genome.connections[(in_node, out_node)].weight])
+                        torch.FloatTensor([self.connections[(in_node, out_node)].weight])
 
     # neat to torch
     def set_initial_parameters_backward(self):
