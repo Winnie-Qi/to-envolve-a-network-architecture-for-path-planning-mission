@@ -28,20 +28,26 @@ def eval_fitness(output, target, genome_id):
     info.write(f"-------Accuracy of Genome {genome_id} is {total_matched_rows}/640----------\n")
     info.close()
     return fitness.item()*10+200
-    # return total_matched_rows
+    # return total_matched_rows/10
+    # return (fitness.item() * 10 + 200)/2 + total_matched_rows/15
 
-def eval_genomes(genomes, config, input, target, gso):
+def eval_genomes(genomes, config, input_, target, gso):
     if torch.cuda.is_available():
-        input = input.cuda()
+        input = input_[0].cuda()
+        input_p = input_[1].cuda()
         target = target.cuda()
     for genome_id, genome in genomes:
         genome.fitness = 0
         net = evaluate_torch.Net(config, genome)
         if torch.cuda.is_available():
             net.cuda()
-        batch_output_allAgent = net(input, gso)
+            for layer in net.cnn_layers:
+                for node in layer:
+                    node = node.cuda()
+                    for param in node.parameters():
+                        param.data = param.data.cuda()
+        batch_output_allAgent = net(input, input_p, gso)
         genome.fitness += eval_fitness(batch_output_allAgent, target, genome_id)
-
 
 def main():
     arg_parser = argparse.ArgumentParser()
@@ -49,13 +55,14 @@ def main():
 
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config/config_neat')
+    pretrained_fc = os.path.join(local_dir, 'save.pkl')
 
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation, config_path)
 
     dataloader = DecentralPlannerDataLoader(config_train)
 
-    networks = neat.Population(config, dataloader)
+    networks = neat.Population(config, pretrained_fc, dataloader)
     networks.add_reporter(neat.StdOutReporter(True))
     winner = networks.run(eval_genomes)
 

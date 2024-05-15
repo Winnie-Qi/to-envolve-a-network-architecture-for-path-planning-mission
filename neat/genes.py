@@ -2,7 +2,7 @@
 import warnings
 import copy
 from random import random
-from neat.attributes import FloatAttribute, BoolAttribute, ListAttribute
+from neat.attributes import FloatAttribute, IntAttribute, BoolAttribute, ListAttribute
 
 # TODO: There is probably a lot of room for simplification of these classes using metaprogramming.
 # TODO: Evaluate using __slots__ for performance/memory usage improvement.
@@ -48,6 +48,8 @@ class BaseGene(object):
 
     def mutate(self, config, num_nodes):
         for a in self._gene_attributes:
+            if a.name == 'single_channel':
+                continue
             v = getattr(self, a.name)
             setattr(self, a.name, copy.deepcopy(a.mutate_value(v, config, num_nodes)))
 
@@ -122,8 +124,7 @@ class BaseGene(object):
 
 class DefaultNodeGeneCNN(BaseGene):
     _gene_attributes = [FloatAttribute('bias'),
-                        BoolAttribute('depth_wise'),
-                        BoolAttribute('single_channel'),
+                        IntAttribute('single_channel'),
                         BoolAttribute('cancle_padding'),
                         ListAttribute('kernel')]
 
@@ -135,10 +136,8 @@ class DefaultNodeGeneCNN(BaseGene):
     def distance(self, other, config):
         d = abs(self.bias - other.bias)
         d += sum([abs(x - y) for x, y in zip(self.kernel, other.kernel)])/ (10 * len(self.kernel))
-        if self.depth_wise != other.depth_wise:
-            d += 1.0
         if self.single_channel != other.single_channel:
-            d += 1.0
+            d += 100.0
         if self.cancle_padding != other.cancle_padding:
             d += 1.0
         return d * config.compatibility_weight_coefficient

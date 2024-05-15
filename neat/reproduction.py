@@ -39,12 +39,12 @@ class DefaultReproduction(DefaultClassConfig):
         self.stagnation = stagnation
         self.ancestors = {}
 
-    def create_new(self, genome_type, genome_config, num_genomes):
+    def create_new(self, genome_type, genome_config, num_genomes, pretrained_fc):
         new_genomes = {}
         for i in range(num_genomes):
             key = next(self.genome_indexer)
             g = genome_type(key, genome_config)
-            g.configure_new(genome_config)
+            g.configure_new(genome_config, pretrained_fc)
             new_genomes[key] = g
             self.ancestors[key] = tuple()
             print("Genome No.{0} initialized.".format(i + 1))
@@ -56,7 +56,8 @@ class DefaultReproduction(DefaultClassConfig):
         """Compute the proper number of offspring per species (proportional to fitness)."""
 
         af_sum = sum(adjusted_fitness)
-
+        species_num = len(adjusted_fitness)
+        pop_size = round(pop_size * (1 + (species_num - 1) * 0.1))
         spawn_amounts = []
         for af, ps in zip(adjusted_fitness, previous_sizes):
             if af_sum > 0:

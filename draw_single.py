@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-filename = "4,8,8,8,5 add 0.1 delete 0.07 nodes.txt"
+filename = "info.txt"
 data = {}
 species_info = {}
 current_generation = None
@@ -16,7 +16,7 @@ with open(filename, "r") as file:
             specie = int(parts[4])
             fitness_str = parts[6].replace(",", "")
             fitness = float(fitness_str)
-            structure_str = parts[7:]
+            structure_str = parts[7:12]
             structure_str = ' '.join(structure_str)
             structure_str = structure_str.replace(".", "")
             structure_str = structure_str.replace("'", "")

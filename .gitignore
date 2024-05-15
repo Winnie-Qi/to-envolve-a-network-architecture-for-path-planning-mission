@@ -1,3 +1,6 @@
 .idea
 .临时
 *.txt
+*.pkl
+*.jpg
+pretrain_fc.py

@@ -87,40 +87,20 @@ class FloatAttribute(BaseAttribute):
     def validate(self, config):  # pragma: no cover
         pass
 
+class IntAttribute(BaseAttribute):
+    _config_items = {}
+    def init_value(self, config, _):
+        return False
 
 class BoolAttribute(BaseAttribute):
     """Class for boolean attributes such as whether a connection is enabled or not."""
-    _config_items = {"default": [bool, False],
-                     "mutate_rate": [float, None],
-                     "rate_to_true_add": [float, None],
-                     "rate_to_false_add": [float, None]}
+    _config_items = {"default": [bool, False]}
 
     def init_value(self, config, _):
-        default = str(getattr(config, self.default_name)).lower()
-
-        if default in ('1', 'on', 'yes', 'true'):
-            return True
-        elif default in ('0', 'off', 'no', 'false'):
-            return False
-        elif default in ('random', 'none'):
-            return bool(random() < 0.5)
-
-        raise RuntimeError("Unknown default value {!r} for {!s}".format(default,
-                                                                        self.name))
+        return False
 
     def mutate_value(self, value, config, _):
-        mutate_rate = getattr(config, self.mutate_rate_name)
-
-        if value:
-            mutate_rate += getattr(config, self.rate_to_false_add_name)
-        else:
-            mutate_rate += getattr(config, self.rate_to_true_add_name)
-
-        if mutate_rate > 0:
-            r = random()
-            return r < mutate_rate
-
-        return value
+        pass
 
     def validate(self, config):  # pragma: no cover
         pass

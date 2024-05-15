@@ -122,10 +122,19 @@ class CreateDataset(data.Dataset):
         step_inputState = torch.from_numpy(inputState[id_step][:]).int() # (10,2)
         input.append(step_input_tensor)
 
+        step_rel_goal = torch.zeros(step_input_tensor.size(0), 2)
+        for i in range(step_input_tensor.size(0)):
+            indices = torch.nonzero(step_input_tensor[i,1] == 1).squeeze(0)
+            offsets = [indices[0] - 5, indices[1] - 5]
+            step_rel_goal[i, 0] = indices[0] - 5
+            step_rel_goal[i, 1] = indices[1] - 5
+        step_rel_goal = step_rel_goal/ 5
+        input.append(step_rel_goal)
+
         goal = data_contents['inputState'][-1]
         goal_state = np.stack((goal, step_inputState))
         goal_state = torch.FloatTensor(goal_state)
-        input.append(goal_state)
+        # input.append(goal_state)
 
         return input, step_target, step_input_GSO, tensor_map
 

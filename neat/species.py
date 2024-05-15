@@ -1,5 +1,6 @@
 """Divides the population into species based on genomic distances."""
 from itertools import count
+from random import random
 
 from neat.math_util import mean, stdev
 from neat.six_util import iteritems, iterkeys, itervalues
@@ -36,21 +37,35 @@ class GenomeDistanceCache(object):
         g1 = genome1.key
         if genome0.num_cnn_layer != genome1.num_cnn_layer or genome0.dense_after_cnn != genome1.dense_after_cnn or genome0.dense_after_gnn != genome1.dense_after_gnn:
             return 100
-        if any([abs(x - y) > 10 for x, y in zip(genome0.nodes_every_layers, genome1.nodes_every_layers)]):
+        if any([abs(x - y) > 6 for x, y in zip(genome0.nodes_every_layer, genome1.nodes_every_layer)]):
             return 100
-        if abs(sum(genome0.nodes_every_layers) - sum(genome1.nodes_every_layers)) > 20:
+        if abs(sum(genome0.nodes_every_layer) - sum(genome1.nodes_every_layer)) > 12:
             return 100
         if abs(len(genome0.direct_conn) - len(genome1.direct_conn)) > 15:
             return 100
-        d = self.distances.get((g0, g1))
-        if d is None:
+        d = 0
+        for k1, n1 in iteritems(genome0.nodes):
+            if hasattr(n1, 'kernel'):
+                n2 = genome1.nodes.get(k1)
+                if n2 is not None:
+                    if n1.single_channel != n2.single_channel:
+                        d += 1
+                    if n1.cancle_padding != n2.cancle_padding:
+                        d += 1
+        # s = 0
+        # for i in range(-1, 3):
+        #     s += abs(genome0.cnn_nodes_conv_layer[0].count(i) - genome1.cnn_nodes_conv_layer[0].count(i))
+        #     if s >= 0.25 * len(genome0.cnn_nodes_conv_layer[0]):
+        #         return 100
+        # d = self.distances.get((g0, g1))
+        # if d is None:
             # Distance is not already computed.
-            d = genome0.distance(genome1, self.config)
-            self.distances[g0, g1] = d
-            self.distances[g1, g0] = d
-            self.misses += 1
-        else:
-            self.hits += 1
+        d = genome0.distance(genome1, self.config)
+        self.distances[g0, g1] = d
+        self.distances[g1, g0] = d
+        self.misses += 1
+        # else:
+        #     self.hits += 1
 
         return d
 
@@ -102,6 +117,23 @@ class DefaultSpeciesSet(DefaultClassConfig):
             new_representatives[sid] = new_rid
             new_members[sid] = [new_rid]
             unspeciated.remove(new_rid)
+
+        # Merge Species if evolve into a similar topology
+        delete_specie = set()
+        for sid, s in iteritems(self.species):
+            for gid, g in iteritems(self.species):
+                if sid != gid and sid not in delete_specie and gid not in delete_specie:
+                    d = distances(s.representative, g.representative)
+                    if d < compatibility_threshold:
+                        if sid > gid:
+                            sid, gid = gid, sid # make sure sid < gid
+                        delete_specie.add(gid)
+                        new_members[sid].extend(new_members[gid])
+                        del new_members[gid]
+                        del new_representatives[gid]
+                        print(f'Delete specie {gid} because it evolved to resemble existing species. ')
+        for g in delete_specie:
+            self.species.pop(g)
 
         # Partition population into species based on genetic similarity.
         while unspeciated:

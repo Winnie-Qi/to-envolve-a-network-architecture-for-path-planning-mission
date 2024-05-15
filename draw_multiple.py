@@ -15,7 +15,7 @@ for i, values in enumerate(fitness_values):
     file_name = os.path.splitext(txt_files[i])[0]
     plt.plot(range(1, len(values)+1), values, label=file_name)
 
-plt.xlabel("Iterations")
+plt.xlabel("Generations")
 plt.ylabel("Best Fitness Value")
 plt.legend()
 plt.show()

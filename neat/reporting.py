@@ -137,8 +137,9 @@ class StdOutReporter(BaseReporter):
                     if best is None or g.fitness > best.fitness:
                         best = g
                 if best.fitness > 10:
-                    print(f"Best fitness in specie {s.key} is {best.fitness}, {best.nodes_every_layers}, {list(best.direct_conn.keys())}.\n")
-                    info.write(f"Best fitness in specie {s.key} is {best.fitness}, {best.nodes_every_layers}, {list(best.direct_conn.keys())}.\n")
+                    print(
+                        f"Best fitness in specie {s.key} is {best.fitness}, {best.nodes_every_layer}, {list(best.direct_conn.keys())}, {best.cnn_nodes_conv_layer}.\n")
+                    info.write(f"Best fitness in specie {s.key} is {best.fitness}, {best.nodes_every_layer}, {list(best.direct_conn.keys())}, {best.cnn_nodes_conv_layer}.\n")
 
         else:
             print('Population of {0:d} members in {1:d} species'.format(ng, ns))
@@ -172,14 +173,14 @@ class StdOutReporter(BaseReporter):
                                                                                  best_genome.size(),
                                                                                  best_species_id,
                                                                                  best_genome.key))
-        print(best_genome.nodes_every_layers)
+        print(best_genome.nodes_every_layer)
         info.write('Population\'s average fitness: {0:3.5f} stdev: {1:3.5f}\n'.format(fit_mean, fit_std))
         info.write(
             'Best fitness: {0:3.5f} - size: {1!r} - species {2} - id {3}\n'.format(best_genome.fitness,
                                                                                  best_genome.size(),
                                                                                  best_species_id,
                                                                                  best_genome.key))
-        info.write(str(best_genome.nodes_every_layers) + '\n')
+        info.write(str(best_genome.nodes_every_layer) + '\n')
         info.close()
         """
         # andrew add

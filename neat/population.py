@@ -5,7 +5,6 @@ from neat.reporting import ReporterSet
 from neat.math_util import mean
 from neat.six_util import iteritems, itervalues
 
-
 class CompleteExtinctionException(Exception):
     pass
 
@@ -20,7 +19,7 @@ class Population(object):
         5. Go to 1.
     """
 
-    def __init__(self, config, dataloader, initial_state=None):
+    def __init__(self, config, pretrained_fc, dataloader, initial_state=None):
         self.reporters = ReporterSet()
         self.dataloader = dataloader
         self.config = config
@@ -42,7 +41,7 @@ class Population(object):
             # Create a population from scratch, then partition into species.
             self.population = self.reproduction.create_new(config.genome_type,
                                                            config.genome_config,
-                                                           config.pop_size)
+                                                           config.pop_size, pretrained_fc)
             self.species = config.species_set_type(config.species_set_config, self.reporters)
             self.generation = 0
             self.species.speciate(config, self.population, self.generation)
@@ -81,6 +80,7 @@ class Population(object):
             raise RuntimeError("Cannot have no generational limit with no fitness termination")
 
         k = 0
+
         while n is None or k < n:
             print('______Loading Dataset______')
             for batch_idx, (batch_input, batch_target, _, batch_GSO, map) in enumerate(self.dataloader.train_loader):
@@ -90,7 +90,7 @@ class Population(object):
                 self.reporters.start_generation(self.generation)
 
                 # Evaluate all genomes using the user-provided function.
-                fitness_function(list(iteritems(self.population)), self.config, batch_input[0], batch_target, batch_GSO)
+                fitness_function(list(iteritems(self.population)), self.config, batch_input, batch_target, batch_GSO)
 
                 # Gather and report statistics.
                 best = None

@@ -21,6 +21,10 @@ bias_replace_rate       = 0
 compatibility_disjoint_coefficient = 1.0
 compatibility_weight_coefficient   = 0.5
 
+# parallel network options
+parallel_layer = 1
+parallel_nodes_every_layer = 2,5
+
 # connection add/remove rates
 add_direct_conn         = 0.2
 direct_conn_num         = 5
@@ -37,33 +41,26 @@ single_channel_conv = 0.5
 
 # mutate add layer rate
 mutate_add_layer = 0.03
-add_cnn_layer = 0.6
+add_cnn_layer = 0.4
 add_fc_before_gnn = 0.5
 add_layer_double = 0.4
 add_layer_halve = 0.2
 
 # cnn options
-depth_wise_mutate_rate     = 0.1
-depth_wise_rate_to_true_add     = 0.2
-depth_wise_rate_to_false_add     = 0.1
-single_channel_mutate_rate     = 1
+single_channel_mutate_rate     = 0.2
 single_channel_mutate_ratio    = 0.2
-each_channel_mutate_prob       = 0.6,0.8,1
-single_channel_rate_to_true_add     = 0.3
-single_channel_rate_to_false_add     = 0.2
+each_channel_mutate_prob       = 0.33,0.66,1
 cancle_padding_mutate_rate     = 0.1
-cancle_padding_rate_to_true_add     = 0.2
-cancle_padding_rate_to_false_add     = 0.1
 
 feed_forward            = True
 initial_connection      = full
 
 # node add/remove rates
-node_add_prob           = 0.1
+node_add_prob           = 0.6
 node_add_one_layer      = 0.5
-node_add_num            = 6
-node_delete_prob        = 0.07
-node_delete_num         = 3
+node_add_num            = 2
+node_delete_prob        = 0.3
+node_delete_num         = 1
 node_delete_one_layer   = 0.3
 parameter_cost = 0.00005
 
